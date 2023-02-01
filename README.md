@@ -2,13 +2,13 @@
 
 # MongoDB Atlas Training
 
-Agenda
+__Agenda__
 
-1. Atlas
+1. __Atlas__
 - MongoDB & Document Model
 - MQL
  
-1. Handson
+1.  __Handson__
 - Provision database
 - CRUD
  
