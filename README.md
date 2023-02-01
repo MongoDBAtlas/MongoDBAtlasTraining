@@ -11,49 +11,49 @@ __Agenda__
     - MQL
  
 - __Handson__
-  - Provision database
-  - CRUD
+    - Provision database
+    - CRUD
      
 
 - Break
     
 
-2. Document Modeling
-  - Modeling
+2. __Document Modeling__
+    - Modeling
     
       
-3.  Index & Aggregation
-  - Index
-  - Explain (ESR & Tips)
-  - Monitoring
-  - Aggregation
+3.  __Index & Aggregation__
+    - Index
+    - Explain (ESR & Tips)
+    - Monitoring
+    - Aggregation
     
      
-- Handson
-  - Index & Explain
+- __Handson__
+    - Index & Explain
     
 
 - Break
     
 
-4. Atlas Search
-  - Full text search & index
-  - Search functions
+4. __Atlas Search__
+    - Full text search & index
+    - Search functions
    
 
-- Handson
-  - Search
+- __Handson__
+    - Search
     
      
 - Break
     
 
-5. Atlas Serverless services
-  - Data Federation & Datalake
-  - Data API & GraphQL
-  - App Functions & Trigger
+5. __Atlas Serverless services__
+    - Data Federation & Datalake
+    - Data API & GraphQL
+    - App Functions & Trigger
     
      
-- Handson
-  - Data API
-  - Functions
+- __Handson__
+    - Data API
+    - Functions
