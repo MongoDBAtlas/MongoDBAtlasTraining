@@ -6,11 +6,11 @@ __Agenda__
 
 
 
-1.__Atlas__
+1. __Atlas__
   - MongoDB & Document Model
   - MQL
  
-1.__Handson__
+1. __Handson__
   - Provision database
   - CRUD
  
