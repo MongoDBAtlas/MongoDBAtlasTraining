@@ -6,7 +6,7 @@ __Agenda__
 
 
 0. __PreWork__
-
+    - [GitHub][0]
 
 1.  __Atlas__
     - MongoDB & Document Model
@@ -59,3 +59,7 @@ __Agenda__
 - __Handson__
     - Data API
     - Functions
+
+
+
+[0]: https://github.com/MongoDBAtlas/MongoDBAtlasTraining/tree/main/00.pre-work
