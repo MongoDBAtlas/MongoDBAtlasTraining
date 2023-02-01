@@ -6,9 +6,9 @@ __Agenda__
 
 
 
-1. __Atlas__
-  - MongoDB & Document Model
-  - MQL
+1.  __Atlas__
+    - MongoDB & Document Model
+    - MQL
  
 - __Handson__
   - Provision database
