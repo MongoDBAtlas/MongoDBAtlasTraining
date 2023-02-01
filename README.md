@@ -5,12 +5,12 @@
 __Agenda__
 
 1. __Atlas__
-- MongoDB & Document Model
-- MQL
+  - MongoDB & Document Model
+  - MQL
  
 1.  __Handson__
-- Provision database
-- CRUD
+  - Provision database
+  - CRUD
  
 - Break
 
