@@ -13,38 +13,47 @@ __Agenda__
 - __Handson__
   - Provision database
   - CRUD
- 
+     
 
 - Break
+    
 
 2. Document Modeling
   - Modeling
-  
+    
+      
 3.  Index & Aggregation
   - Index
   - Explain (ESR & Tips)
   - Monitoring
   - Aggregation
- 
+    
+     
 - Handson
   - Index & Explain
+    
 
 - Break
+    
 
 4. Atlas Search
   - Full text search & index
   - Search functions
- 
+   
+
 - Handson
   - Search
- 
+    
+     
 - Break
+    
 
 5. Atlas Serverless services
   - Data Federation & Datalake
   - Data API & GraphQL
   - App Functions & Trigger
- 
+    
+     
 - Handson
   - Data API
   - Functions
