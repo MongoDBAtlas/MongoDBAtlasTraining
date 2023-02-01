@@ -5,6 +5,8 @@
 __Agenda__
 
 
+0. __PreWork__
+
 
 1.  __Atlas__
     - MongoDB & Document Model
