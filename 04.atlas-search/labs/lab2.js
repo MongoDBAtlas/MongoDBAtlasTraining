@@ -12,7 +12,7 @@ module.exports = {
         $search: {
           //TODO - query the data using the autocomplete index. Do not use fuzzy matching, stick with all the autocomplete defaults.
           // the user's search input is provided in the variable "term"
-          index: "language_index",
+          index: "one_index",
           autocomplete: {
             query: term,
             path: "post_title",

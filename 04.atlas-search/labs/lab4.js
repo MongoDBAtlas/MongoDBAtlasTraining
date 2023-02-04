@@ -13,10 +13,10 @@ module.exports = {
       // the user's search input is provided in the variable "term". Limit results to 20 records.
       {
         $search: {
-          index: "keyword_index",
+          index: "one_index",
           text: {
             query: term,
-            path: "post_title",
+            path: { value: "post_title", multi: "keyword" },
           },
         },
       },

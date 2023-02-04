@@ -11,7 +11,7 @@ module.exports = {
       {
         $searchMeta: {
           //TODO - use facets to create buckets for reply_count and return the number of records in each bucket, as well as the number of documents for each user.full_name
-          index: "qs_index",
+          index: "one_index",
           facet: {
             operator: {
               exists: {

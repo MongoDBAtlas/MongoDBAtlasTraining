@@ -12,7 +12,7 @@ module.exports = {
         $search: {
           //TODO - query the data using the query string operator. This will allow users to write advanced logic into their searches.
           // the user's search input is provided in the variable "term"
-          index: "qs_index",
+          index: "one_index",
           queryString: {
             defaultPath: "post_text",
             query: term,

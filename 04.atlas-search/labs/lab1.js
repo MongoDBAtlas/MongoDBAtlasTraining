@@ -14,10 +14,10 @@ module.exports = {
       // limit results to 20 records
       {
         $search: {
-          index: "language_index",
+          index: "one_index",
           text: {
             query: term,
-            path: "post_text",
+            path: { value: "post_text", multi: "english" },
             // fuzzy: {},
             synonyms: "my-mapping",
           },
