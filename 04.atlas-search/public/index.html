@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>MongoDB Atlas Search Lab</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="stylesheets/bootstrap.min.css" rel="stylesheet" />
+        <link href="stylesheets/styles.css" rel="stylesheet" />
+        <!-- Custom CSS-->
+        <link href="stylesheets/custom.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end bg-white" id="sidebar-wrapper">
+                <div class="sidebar-heading border-bottom bg-light">Atlas Search Lab</div>
+                <div class="list-group list-group-flush">
+                    <span class="list-group-item list-group-item-light p-3">
+                        <label for="inptDate">Date: </label>
+                        <input type="text" id="inptDate" style="width:100%" placeholder="yyyy-mm-dd">
+                    </span>
+                    <span class="list-group-item list-group-item-light p-3"><b>Common Topics:</b></span>
+                    <span class="list-group-item list-group-item-light p-3">Replica Set <input style="float: right;" type="checkbox" id="replicaSet" name="replica set" value="false"></span>
+                    <span class="list-group-item list-group-item-light p-3">Sharded Cluster <input style="float: right;" type="checkbox" id="shardedCluster" name="sharded cluster" value="false"></span>
+                    <span class="list-group-item list-group-item-light p-3">Atlas <input style="float: right;" type="checkbox" id="atlas" name="atlas" value="false"></span>
+                    <span class="list-group-item list-group-item-light p-3">Community Edition <input style="float: right;" type="checkbox" id="community" name="community edition" value="false"></span>
+                    <span class="list-group-item list-group-item-light p-3"><b>Facets:</b></span>
+                    <div id="sidebarFacets">
+                        <span class="list-group-item list-group-item-light p-3">Facets will appear here after lab 7!</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Page content wrapper-->
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                                <li><label for="staffResponseOnly"  style="margin-right: 5px;">Show Only MongoDB Employee Responses:</label><input type="checkbox" id="staffResponseOnly" style="margin-right: 5px;"></li>
+                                <li class="nav-item active" style="width: 500px;"><input type="text" placeholder="Search" style="width: 100%;" id="searchText"></li>
+                                <li><button class="btn btn-success" style="margin-left: 10px;" onclick="runSearch(false)">Run Search</button></li>
+                                <li><button class="btn btn-success" style="margin-left: 10px;" onclick="runSearch(true)">Run Advanced Search</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Page content-->
+                <div class="container-fluid">
+                    <h1 class="mt-4">Forum Search Results</h1>
+                    <table class="table table-striped" id="resultTable">
+                        <colgroup>
+                            <col span="2" style="width: 20%;">
+                            <col style="width: 10%;">
+                            <col style="width: 50%;">
+                        </colgroup>
+                        <thead id="tableHeader">
+                            <th>
+                                <span>Title</span>
+                            </th>
+                            <th>
+                                <span>Author</span>
+                            </th>
+                            <th>
+                                <span>Replies</span>
+                            </th>
+                            <th>
+                                <span>Full Text</span>
+                            </th>
+                        </thead>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <!-- Bootstrap core JS-->
+        <script src="javascripts/bootstrap.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="javascripts/scripts.js"></script>
+    </body>
+</html>
