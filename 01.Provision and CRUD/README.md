@@ -34,13 +34,14 @@ MongoDB atlas Console에 접근 주소를 얻어야 합니다.
 
 <img src="/01.Provision and CRUD/images/image01.png" width="90%" height="90%">     
 
-접근방법을 선택 하여 주는 단계에서 Connect your application를 선택 하면 접근 주소를 얻을 수 있습니다.
 
-<img src="/01.Provision and CRUD/images/image08.png" width="90%" height="90%">   
+접근방법을 선택 하여 주는 단계에서 Connect your application를 선택 하면 접근 주소를 얻을 수 있습니다.   
 
-Driver는 Node.js를 선택 하고 버젼은 4.1 or later를 선택 하여 주면 연결을 위한 Connection String이 생성 됩니다.
+<img src="/01.Provision and CRUD/images/image08.png" width="60%" height="60%">   
 
-<img src="/01.Provision and CRUD/images/image09.png" width="90%" height="90%">     
+Driver는 Node.js를 선택 하고 버젼은 4.1 or later를 선택 하여 주면 연결을 위한 Connection String이 생성 됩니다.    
+
+<img src="/01.Provision and CRUD/images/image09.png" width="70%" height="70%">     
 
 
 connect.js 에 const uri을 수정 하여 줍니다.
@@ -179,7 +180,7 @@ const result = await userCollection.deleteOne({"ssn":"123-456-0001"});
 
 ### Compass 를 이용한 데이터 확인
 
-MongoDB Cluster에 접속하여 저장된 데이터 등을 볼 수 있는 개발자용 GUI툴입니다. 이를 이용하여 데이터를 조회 하고 변경 하여 줍니다. 다음 링크에서 다운로드가 가능 합니다.
+MongoDB Cluster에 접속하여 저장된 데이터 등을 볼 수 있는 개발자용 GUI툴입니다. 이를 이용하여 데이터를 조회 하고 변경 하여 줍니다. 다음 링크에서 다운로드가 가능 합니다.    
 Compass :   
 https://www.mongodb.com/products/compass
 
@@ -198,25 +199,28 @@ A document was inserted with the _id: 63e32381541c67cc69d7897a
 
 #### Connection
 MongoDB atlas Console에 접근 주소를 얻어야 합니다. 
-접속 주소를 얻기 위해 Console에 로그인합니다. 
+접속 주소를 얻기 위해 Console에 로그인합니다.    
 데이터베이스 클러스터의 Connect 버튼을 클릭 합니다.
 
 <img src="/01.Provision and CRUD/images/image01.png" width="90%" height="90%">     
 
-접근방법을 선택 하여 주는 단계에서 Connect using MongoDB Compass를 선택 하면 접근 주소를 얻을 수 있습니다.
+접근방법을 선택 하여 주는 단계에서 Connect using MongoDB Compass를 선택 하면 접근 주소를 얻을 수 있습니다.    
 
-<img src="/01.Provision and CRUD/images/image02.png" width="90%" height="90%">     
+<img src="/01.Provision and CRUD/images/image02.png" width="60%" height="60%">     
 
-Connection String을 복사하여 줍니다. 이후 Compass를 실행 하여 줍니다.
-<img src="/01.Provision and CRUD/images/image03.png" width="90%" height="90%">     
+Connection String을 복사하여 줍니다. 이후 Compass를 실행 하여 줍니다.     
+<img src="/01.Provision and CRUD/images/image03.png" width="70%" height="70%">     
 
 
-복사한 Connection String을 입력하여 줍니다.
+
+복사한 Connection String을 입력하여 줍니다.   
+
 <img src="/01.Provision and CRUD/images/image04.png" width="90%" height="90%">     
 
 
 #### 데이터 조회
-데이터베이스에서 생성한 handson 탭을 클릭 하면 컬렉션 리스트를 볼 수 있습니다. 생성한 user컬렉션을 선택 합니다.
+데이터베이스에서 생성한 handson 탭을 클릭 하면 컬렉션 리스트를 볼 수 있습니다. 생성한 user컬렉션을 선택 합니다.    
+
 <img src="/01.Provision and CRUD/images/image05.png" width="90%" height="90%">     
 
 데이터 검색을 위해서 Filter 부분에 검색 조건을 입력 하여 줍니다.
