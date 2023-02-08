@@ -65,3 +65,7 @@ https://nodejs.org/en/download/
 
 Compass :   
 https://www.mongodb.com/products/compass
+
+Mongosh :
+https://www.mongodb.com/docs/mongodb-shell/install/
+
