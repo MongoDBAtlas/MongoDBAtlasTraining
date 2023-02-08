@@ -1,0 +1,9 @@
+#resultTable{
+    table-layout: fixed;
+}
+
+.resultColumn{
+    width:25%;
+    overflow:auto;
+    border: 1px solid black;
+}
