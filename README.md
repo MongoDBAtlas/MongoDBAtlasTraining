@@ -52,9 +52,9 @@ __Agenda__
     
 
 5. __Atlas Serverless services__
-    - Data Federation & Datalake
+    - Functions & Triggers
     - Data API & GraphQL
-    - App Functions & Trigger
+    - Data Federation & Online Archive
     
      
 - __Handson__
