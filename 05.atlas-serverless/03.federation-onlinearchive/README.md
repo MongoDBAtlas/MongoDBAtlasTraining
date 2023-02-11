@@ -2,8 +2,11 @@
 
 # Data Federation & Online Archive Hands-on
 
-- [Data Federation](#data-federation)
-- [Online Archive](#online-archive)
+### [&rarr; Data Federation](#data-federation)
+
+### [&rarr; Online Archive](#online-archive)
+
+<br>
 
 # Data Federation
 
@@ -135,6 +138,89 @@
 
 # Online Archive
 
+- [Online Archive 생성](#online-archive-생성)
+- [아카이빙 완료 클러스터 검색](#아카이빙-후-클러스터-검색)
+- [Archive Federation Query](#archive-federation-query)
+
 **Note**: M10 이상 티어에서 제공
 
 > [ [Online Archive 공식 매뉴얼](https://www.mongodb.com/docs/atlas/online-archive/configure-online-archive/) ]
+
+## Online Archive 생성
+
+![01](img-ola/01.enter-ola.png)
+
+- `Database` 메뉴에서 `Browse Collections` 선택 후 `Online Archive` 탭 선택
+- `Configure Online Archive` 클릭
+- 이 후 보여주는 간단한 소개 페이지에서 `Next` 클릭
+
+![02](img-ola/02.rule-date.png)
+
+- `Namespace`에 Federation 실습에서 사용했던 `sample_mflix.movies` 입력
+
+- `Date Match`는 document의 time field를 기준으로 아카이빙 여부를 결정한다
+
+  - `Date Field`: 아카이빙 결정 기준으로 사용할 time field
+  - `Age limit`: time field와 현재 시간을 비교하여 아카이빙에 포함시킬 기준 경과 시간
+  - `Choose date format`: ISODate, Epoch sec, Epoch ms, Epoch ns 중 하나
+    > 테스트에서는 `Custom Criteria`를 사용하기로 한다
+
+- `Deletion Age Limit`: 데이터 유지정책에 따라 데이터를 완전히 삭제할 아카이빙 후 보유 시간
+- `Schedule Archiving Window`: Online Archive의 기본 동작은 임의의 시간 주기적인 아카이빙이지만 cluster가 덜 바쁜 특정 시간대를 선택해 아카이빙을 실행할 수 있다
+
+![02](img-ola/02.rule-query.png)
+
+- `Custom Criteria` 탭을 선택 후
+- 아카이빙에 포함할 document검색에 사용될 query 정의
+  ```
+  {
+    "type": {"$eq": "movie"}
+  }
+  ```
+  > `type` 값이 `movie` 인 document만 아카이빙
+- `Next` 클릭
+
+  > 아카이빙의 기준이 될 필드는 반드시 인덱스가 정의돼 있어야 한다.  
+  > 필드에 인덱스가 중분치 않을 경우 `Index Sufficiency Warning` 프로젝트 에러가 발생한다.  
+  > [ [가이드의 노트참조](https://www.mongodb.com/docs/atlas/online-archive/configure-online-archive/#create-an-archiving-rule-by-providing-the-following-information) ]
+
+![03](img-ola/03.keys.png)
+
+- document를 object storage에 저장할 때 사용할 파티션 키 지정
+  > Federation 실습에서 사용했던 S3 데이터와 동일하게 `type`과 `year` 사용
+  >
+  > partition key는 document를 파일로 저장할 때 tree구조 path의 노드로 사용되기 때문에  
+  > 검색에 사용할 query pattern에 맞춰 키와 순서를 정해야 검색 성능을 최적화할 수 있다.
+- `Next` 클릭
+
+![04](img-ola/04.begin.png)
+
+- rule 리뷰 후 `Begin Archiving` 클릭
+- `Confirm` 클릭
+
+![05](img-ola/05.done.png)
+
+- `Archive Last Updated`에서 최종 아카이빙 마지막 시간을 확인할 수 있다
+
+## 아카이빙 후 클러스터 검색
+
+![06](img-ola/06.query-cluster.png)
+
+- `Collections` 탭에서 아카이빙된 document 검색을 시도하면 `QUERY RESULTS: 0`을 확인할 수 있다
+
+## Archive Federation Query
+
+![07](img-ola/07.conn-ola.png)
+
+- `Online Archive`에서 `Connect` 클릭 후
+- 사용할 클라이언트 선택 (예: mongosh)
+
+![07-2](img-ola/07.conn-ola-2.png)
+
+- `Connect to Cluster and Online Archive` 선택 후 URL 복사
+  > client에서 사용 시  
+  > `myFirstDatabase`와 `<username>`은 변경 필요
+
+![08](img-ola/08.query-ola.png)
+
+- Federation query 실행 시 cluster에서 제거된(migrate to archive) document가 검색된 것을 확인할 수 있다
