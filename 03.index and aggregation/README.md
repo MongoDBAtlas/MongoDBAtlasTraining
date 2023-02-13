@@ -21,27 +21,28 @@ db.movies.find(
 	{"title":1}
 )
 ````
-<img src="/03.index and aggregation/images/image01.png" width="90%" height="90%">     
+<img src="/03.index and aggregation/images/image01.png" width="100%" height="100%">     
 
 E-S-R 규칙에 맞추어 인덱스를 생성 하고 Explain에서 개선된 사하을 확인 합니다.
+
 
 #### Index 생성
 
 테스트를 위해 cast - year - title 순서로 인덱스를 생성 하고 테스트 합니다.   
 
-<img src="/03.index and aggregation/images/image02.png" width="70%" height="70%">     
+<img src="/03.index and aggregation/images/image02.png" width="50%" height="50%">     
 
 
 동일한 쿼리를 수행 하여 봅니다.    
 
-<img src="/03.index and aggregation/images/image03.png" width="70%" height="70%">     
+<img src="/03.index and aggregation/images/image03.png" width="90%" height="90%">     
 
 문서 스캔이 Index 스캔으로 변경 되고 기존에 비해 성능이 개선된 것을 확인 합니다.
 
 인덱스를 ESR 순서로 작성합니다. (cast-title-year)   
 동일한 쿼리를 실행 하여 플랜을 확인 합니다.    
 
-<img src="/03.index and aggregation/images/image04.png" width="70%" height="70%">     
+<img src="/03.index and aggregation/images/image04.png" width="90%" height="90%">     
 
 Projection 항목에 title만을 출력 하도록 하고 Plan을 확인 합니다.
 
@@ -101,23 +102,23 @@ Compass 의 Aggregation에서 Stage를 생성 하여 줍니다.
 
 match stage 생성 하기   
 
-<img src="/03.index and aggregation/images/image05.png" width="80%" height="80%">     
+<img src="/03.index and aggregation/images/image05.png" width="90%" height="90%">     
 
 unwind stage 생성 하기    
 
-<img src="/03.index and aggregation/images/image06.png" width="80%" height="80%">     
+<img src="/03.index and aggregation/images/image06.png" width="90%" height="90%">    
 
 group stage 생성 하기    
 
-<img src="/03.index and aggregation/images/image07.png" width="80%" height="80%">     
+<img src="/03.index and aggregation/images/image07.png" width="90%" height="90%">     
 
 out stage 생성 하기    
 
-<img src="/03.index and aggregation/images/image08.png" width="80%" height="80%">     
+<img src="/03.index and aggregation/images/image08.png" width="90%" height="90%">     
 
 생성된 컬렉션을 확인 합니다. out은 컬렉션을 생성하고 데이터를 생성 하여 줌으로 다시 aggregation을 실행 하기 위해서는 생성된 컬렉션을 삭제하고 실행 해줍니다. (실행 후 작성한 aggregation을 저장하여 줍니다.)
 
-<img src="/03.index and aggregation/images/image09.png" width="90%" height="90%">     
+<img src="/03.index and aggregation/images/image09.png" width="100%" height="100%">     
 
 
 #### Aggregation Node JS 실행 하기
@@ -126,11 +127,11 @@ out stage 생성 하기
 개발용 코드는 자동으로 생성 하여 줌으로 이를 이용 하도록 합니다. Compass에서 개발한 aggregation코드를 오픈하여 줍니다.  
 메뉴중 "EXPORT TO LANGUAGE"를 클릭 합니다.
 
-<img src="/03.index and aggregation/images/image09.png" width="90%" height="90%">     
+<img src="/03.index and aggregation/images/image10.png" width="90%" height="90%">     
 
 개발 언어를 Node를 선택 하여 주고 코드를 복사하여 줍니다.   
 
-<img src="/03.index and aggregation/images/image11.png" width="90%" height="90%">     
+<img src="/03.index and aggregation/images/image11.png" width="80%" height="80%">     
 
 application 의 aggregation.js 에 복사한 내용을 붙여 주기 합니다.
 컬렉션을 만들지 않고 화면을 출력 하기 위해 out stage 는 생략 하고 작성 합니다.

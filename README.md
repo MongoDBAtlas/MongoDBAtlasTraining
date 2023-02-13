@@ -34,7 +34,7 @@ __Agenda__
      
 - __Handson__
     - Index & Explain
-    
+    - [GitHub][3]
 
 - Break
     
@@ -66,6 +66,9 @@ __Agenda__
 [0]: https://github.com/MongoDBAtlas/MongoDBAtlasTraining/tree/main/00.pre-work
 
 [1]: https://github.com/MongoDBAtlas/MongoDBAtlasTraining/tree/main/01.Provision%20and%20CRUD
+
+
+[3]: https://github.com/MongoDBAtlas/MongoDBAtlasTraining/tree/main/03.index%20and%20aggregation
 
 
 [4]: https://github.com/MongoDBAtlas/MongoDBAtlasTraining/tree/main/04.atlas-search
