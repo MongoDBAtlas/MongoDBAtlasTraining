@@ -290,3 +290,143 @@ application % node aggregation.js
 { _id: 'Hong Kong', count: 117 }
 { _id: 'Kyrgyzstan', count: 1 }
 ````
+
+#### Lookup 을 이용한 조인
+
+sample_mflix.comments 와 sample_mflix.users 를 결합하여 데이터를 조회 합니다.    
+users의 데이터 중 이름이 "Mercedes Tyler"인 사람을 찾아 그가 게시한 Comments 를 찾습니다.   
+
+해당 데이터를 검색 하면 다음과 같습니다.    
+users    
+````
+{
+  "_id": {
+    "$oid": "59b99dedcfa9a34dcd78862d"
+  },
+  "name": "Mercedes Tyler",
+  "email": "mercedes_tyler@fakegmail.com",
+  "password": "$2b$12$ONDwIwR9NKF1Tp5GjGI12e8OFMxPELoFrk4x4Q3riJGWY6jl/UZAa"
+}
+````
+
+comments 의 경우 다음과 같습니다.
+````
+[{
+  "_id": {
+    "$oid": "5a9427648b0beebeb69579e7"
+  },
+  "name": "Mercedes Tyler",
+  "email": "mercedes_tyler@fakegmail.com",
+  "movie_id": {
+    "$oid": "573a1390f29313caabcd4323"
+  },
+  "text": "Eius veritatis vero facilis quaerat fuga temporibus. Praesentium expedita sequi repellat id. Corporis minima enim ex. Provident fugit nisi dignissimos nulla nam ipsum aliquam.",
+  "date": {
+    "$date": {
+      "$numberLong": "1029646567000"
+    }
+  }
+},
+...
+]
+````
+
+Lookup으로 조인을 하여 데이터를 볼 때는 전체 데이터를 조인 하는 것 보다 Match를 이용하여 Join 할 범위를 좁힌 후에 하는 것이 필요 합니다.   
+
+Aggregation을 작성하기 위해 Compass에서 sample_mflix.users를 선택 합니다.  
+Aggregation 탭에서 먼저 match 스테이지를 작성 합니다.
+
+Match
+````
+{$match:
+  {
+    name:"Mercedes Tyler"
+  }
+}
+````
+
+Lookup 스테이지를 추가하여 줍니다.    
+Lookup
+````
+{$lookup:
+  {
+    from: "comments",
+    localField: "name",
+    foreignField: "name",
+    as: "Comments"
+  }
+}
+````
+
+<img src="/03.index and aggregation/images/image12.png" width="80%" height="80%">     
+
+결과로 다음과 같이 Comments를 포함한 결과가 보여 집니다.
+
+
+````
+{
+  _id: ObjectId("59b99dedcfa9a34dcd78862d"),
+  name: 'Mercedes Tyler',
+  email: 'mercedes_tyler@fakegmail.com',
+  password: '$2b$12$ONDwIwR9NKF1Tp5GjGI12e8OFMxPELoFrk4x4Q3riJGWY6jl/UZAa',
+  Comments: [
+    {
+      _id: ObjectId("5a9427648b0beebeb69579e7"),
+      name: 'Mercedes Tyler',
+      email: 'mercedes_tyler@fakegmail.com',
+      movie_id: ObjectId("573a1390f29313caabcd4323"),
+      text: 'Eius veritatis vero facilis quaerat fuga temporibus. Praesentium expedita sequi repellat id. Corporis minima enim ex. Provident fugit nisi dignissimos nulla nam ipsum aliquam.',
+      date: 2002-08-18T04:56:07.000Z
+    },
+    {
+      _id: ObjectId("5a9427648b0beebeb6958131"),
+      name: 'Mercedes Tyler',
+      email: 'mercedes_tyler@fakegmail.com',
+      movie_id: ObjectId("573a1392f29313caabcdb8ac"),
+      text: 'Dolores nulla laborum doloribus tempore harum officiis. Rerum blanditiis aperiam nemo dignissimos a magni natus. Tenetur suscipit cumque sint dignissimos. Accusantium eveniet consequuntur officia ea.',
+      date: 2007-09-21T08:52:00.000Z
+    },
+    {
+      _id: ObjectId("5a9427648b0beebeb69582cb"),
+      name: 'Mercedes Tyler',
+      email: 'mercedes_tyler@fakegmail.com',
+      movie_id: ObjectId("573a1393f29313caabcdbe7c"),
+      text: 'Voluptatem ad enim corrupti esse consectetur. Explicabo voluptates quo aperiam deleniti reiciendis. Temporibus aliquid delectus recusandae commodi.',
+      date: 2008-05-17T22:55:39.000Z
+    },
+    {
+      _id: ObjectId("5a9427648b0beebeb69582cc"),
+      name: 'Mercedes Tyler',
+      email: 'mercedes_tyler@fakegmail.com',
+      movie_id: ObjectId("573a1393f29313caabcdbe7c"),
+      text: 'Fuga nihil dolor veniam repudiandae. Rem debitis ex porro dolorem maxime laborum. Esse molestias accusamus provident unde. Sint cupiditate cumque corporis nulla explicabo fuga.',
+      date: 2011-03-01T12:06:42.000Z
+    },
+    {
+      _id: ObjectId("5a9427648b0beebeb69588e6"),
+      name: 'Mercedes Tyler',
+      email: 'mercedes_tyler@fakegmail.com',
+      movie_id: ObjectId("573a1393f29313caabcde00c"),
+      text: 'Et quas doloribus ipsum sapiente amet enim optio. Magni odio pariatur quos. Voluptatum error ipsum nemo similique error vel.',
+      date: 1971-05-13T02:38:19.000Z
+    },
+    {
+      _id: ObjectId("5a9427648b0beebeb69589a1"),
+      name: 'Mercedes Tyler',
+      email: 'mercedes_tyler@fakegmail.com',
+      movie_id: ObjectId("573a1393f29313caabcde4a8"),
+      text: 'Ipsam quos magnam ipsum odio aspernatur voluptas nihil nesciunt. Deserunt magni corporis aperiam. Delectus blanditiis eius molestiae modi velit illo veritatis.',
+      date: 2015-12-10T21:26:15.000Z
+    },
+    {
+      _id: ObjectId("5a9427648b0beebeb6958aeb"),
+      name: 'Mercedes Tyler',
+      email: 'mercedes_tyler@fakegmail.com',
+      movie_id: ObjectId("573a1394f29313caabcde63e"),
+      text: 'Magnam repudiandae ipsam perspiciatis. Tenetur commodi tenetur dolorem tempora. Quas a quos laboriosam.',
+      date: 2007-09-19T02:17:40.000Z
+    },
+    ...
+  ]
+}
+````
