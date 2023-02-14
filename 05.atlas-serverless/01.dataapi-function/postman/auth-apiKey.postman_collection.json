@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "236b1490-16ec-42ce-8c71-df488185c91f",
+		"name": "auth-apiKey",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1454403"
+	},
+	"item": [
+		{
+			"name": "findOne",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apiKey",
+						"value": "{{apiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dataSource\": \"{{dataSource}}\",\n    \"database\": \"{{database}}\",\n    \"collection\": \"{{collection}}\",\n    \"filter\": {\n        \"title\": \"The Matrix\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/data/v1/action/findOne",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"data",
+						"v1",
+						"action",
+						"findOne"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apiKey",
+						"value": "{{apiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dataSource\": \"{{dataSource}}\",\n    \"database\": \"{{database}}\",\n    \"collection\": \"{{collection}}\",\n    \"filter\": {\n        \"type\": \"series\"\n    },\n    \"sort\": {\"year\": 1},\n    \"limit\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/data/v1/action/find",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"data",
+						"v1",
+						"action",
+						"find"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "aggregate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apiKey",
+						"value": "{{apiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dataSource\": \"{{dataSource}}\",\n    \"database\": \"{{database}}\",\n    \"collection\": \"{{collection}}\",\n    \"pipeline\": [\n        {\n            \"$group\": {\n                \"_id\": \"$year\",\n                \"count\": {\"$sum\": 1}\n            }\n        }, {\n            \"$sort\": {\"count\": -1}\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/data/v1/action/aggregate",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"data",
+						"v1",
+						"action",
+						"aggregate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

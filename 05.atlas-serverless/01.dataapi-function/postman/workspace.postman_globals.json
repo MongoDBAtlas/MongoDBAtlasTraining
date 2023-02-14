@@ -1,0 +1,51 @@
+{
+	"id": "9d794c16-7a32-4185-8687-89445ad4a92d",
+	"values": [
+		{
+			"key": "appId",
+			"value": "rest-qatia",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "region",
+			"value": "ap-southeast-1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://{{region}}.aws.data.mongodb-api.com/app/{{appId}}/endpoint",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "dataSource",
+			"value": "mongodb-atlas",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "database",
+			"value": "sample_mflix",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "collection",
+			"value": "movies",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "apiKey",
+			"value": "eTnER1A6H5NwqfCusaw16hDyqUDOnPsPk8HCZYgAQjAw2fma9s1n8tSBijrskpmQ",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2023-02-14T14:21:53.902Z",
+	"_postman_exported_using": "Postman/10.10.1"
+}
