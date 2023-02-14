@@ -2,4 +2,5 @@
 
 # MongoDB Atlas Serverless Hands-on
 
+- [Data API & Function](01.dataapi-function/README.md)
 - [Data Federation & Online Archive](03.federation-onlinearchive/README.md)

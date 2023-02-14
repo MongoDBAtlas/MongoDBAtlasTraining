@@ -1,0 +1,52 @@
+{
+	"info": {
+		"_postman_id": "cadcf712-7a54-489d-84b5-2dd43996c103",
+		"name": "customHTTPsEndpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1454403"
+	},
+	"item": [
+		{
+			"name": "genre",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "apiKey",
+						"value": "{{apiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/genre?genre=Drama&limit=1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"genre"
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "Drama"
+						},
+						{
+							"key": "limit",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
