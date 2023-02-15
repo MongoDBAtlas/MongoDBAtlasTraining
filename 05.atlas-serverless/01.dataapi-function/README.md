@@ -154,7 +154,7 @@
 <br>
 
 - [Data API 시작](#enable-data-api)
-- [Postmat 셋업](#postman)
+- [Postman 셋업](#postman)
 - [테스트](#run-data-api)
 
 <br>
