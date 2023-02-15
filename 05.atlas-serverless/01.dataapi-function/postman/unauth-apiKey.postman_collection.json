@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "236b1490-16ec-42ce-8c71-df488185c91f",
-		"name": "auth-apiKey",
+		"_postman_id": "dc054235-0a3f-47ee-b3ac-cba063703176",
+		"name": "unauth-apiKey",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1454403"
 	},
@@ -10,13 +10,7 @@
 			"name": "findOne",
 			"request": {
 				"method": "POST",
-				"header": [
-					{
-						"key": "apiKey",
-						"value": "{{apiKey}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"dataSource\": \"{{dataSource}}\",\n    \"database\": \"{{database}}\",\n    \"collection\": \"{{collection}}\",\n    \"filter\": {\n        \"title\": \"The Matrix\"\n    }\n}",
@@ -45,13 +39,7 @@
 			"name": "find_Unauthorized",
 			"request": {
 				"method": "POST",
-				"header": [
-					{
-						"key": "apiKey",
-						"value": "{{apiKey}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"dataSource\": \"{{dataSource}}\",\n    \"database\": \"{{database}}\",\n    \"collection\": \"users\",\n    \"limit\": 10\n}",
@@ -80,13 +68,7 @@
 			"name": "find",
 			"request": {
 				"method": "POST",
-				"header": [
-					{
-						"key": "apiKey",
-						"value": "{{apiKey}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"dataSource\": \"{{dataSource}}\",\n    \"database\": \"{{database}}\",\n    \"collection\": \"{{collection}}\",\n    \"filter\": {\n        \"type\": \"series\"\n    },\n    \"sort\": {\"year\": 1},\n    \"limit\": 2\n}",
@@ -112,86 +94,10 @@
 			"response": []
 		},
 		{
-			"name": "findRratedMovies",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "apiKey",
-						"value": "{{apiKey}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"dataSource\": \"{{dataSource}}\",\n    \"database\": \"{{database}}\",\n    \"collection\": \"{{collection}}\",\n    \"filter\": {\n        \"rated\": \"R\"\n    }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/data/v1/action/find",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"data",
-						"v1",
-						"action",
-						"find"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "findNoFilter",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "apiKey",
-						"value": "{{apiKey}}",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"dataSource\": \"{{dataSource}}\",\n    \"database\": \"{{database}}\",\n    \"collection\": \"{{collection}}\",\n    \"limit\": 10\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{baseUrl}}/data/v1/action/find",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"data",
-						"v1",
-						"action",
-						"find"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "aggregate",
 			"request": {
 				"method": "POST",
-				"header": [
-					{
-						"key": "apiKey",
-						"value": "{{apiKey}}",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"dataSource\": \"{{dataSource}}\",\n    \"database\": \"{{database}}\",\n    \"collection\": \"{{collection}}\",\n    \"pipeline\": [\n        {\n            \"$group\": {\n                \"_id\": \"$year\",\n                \"count\": {\"$sum\": 1}\n            }\n        }, {\n            \"$sort\": {\"count\": -1}\n        }\n    ]\n}",

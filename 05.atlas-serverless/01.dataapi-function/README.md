@@ -8,6 +8,8 @@
 
 ### [&rarr; Functions](#functions)
 
+### [&rarr; Chage-Up](#change-up)
+
 <br>
 
 # Create App Service
@@ -154,7 +156,7 @@
 <br>
 
 - [Data API 시작](#enable-data-api)
-- [Postmat 셋업](#postman)
+- [Postman 셋업](#postman)
 - [테스트](#run-data-api)
 
 <br>
@@ -350,3 +352,155 @@
 
 - Postman Collection `customHTTPsEndpoint`의 `genre` request를 실행한다
 - query param, `genra`, `limit` 을 변경해서 검색 조건을 변경할 수 있다
+
+<br>
+
+# Change Up
+
+- [User ID Authentication Method](#auth-user-id)
+- [Unauthroized Request Test](#unauthorized-request)
+- [Rules Filters](#filters)
+
+<br>
+
+## Auth User Id
+
+지금까지의 테스트는 `apiKey`를 사용한 사용자 인증을 사용해왔다  
+DATA API/HTTPs Endpoin는 기본 application authentication 외에  
+모듈이 자체적으로 사용하는 사용자 인증 방법이 지원된다
+
+- User Id
+- Script
+
+이번 테스트에서는 클라이언트가 사용자 인증을 하지 않고  
+DATA API가 모든 query에 대해 사용자를 지정하는 인증 `User Id` 인증 방식을 테스트 해본다
+
+<br>
+
+![no apiKey](img-cu/02.auth-uid-no-apikey.png)
+
+- Postman `unauth-apiKey` collection에서 임의의 query를 수행한다
+  > 해당 collection의 모든 query는 HTTP header에 인증을 위한 `apiKey`를 포함하지 않는다
+- 결과는 `no authentication methods were specified` 임을 확인할 수 있다
+
+<br>
+
+![userId select](img-cu/02.auth-uid-select.png)
+
+- App Service 좌측 내비게이션 바에서 `HTTPS Endpoints`를 선택 후
+- `Authentication Options`에서 `User Id`를 선택한다
+- 아래 `Select User` 클릭
+
+<br>
+
+![select user](img-cu/02.auth-uid-select-user.png)
+
+- 모달에서 등록돼 있는 사용자를 지정 후
+- `Select User` 클릭
+
+<br>
+
+![uid auth save](img-cu/02.auth-uid-save.png)
+
+- 돌아온 설정에서 선택한 사용자(예. `keyedUser`)가 올바로 선택됐음을 확인 후
+- `Save` 클릭
+
+<br>
+
+![uid auth ok](img-cu/02.auth-uid-ok.png)
+
+- 다시 Postman에서 동일한 query를 실행하면 인증이 성공해서 쿼리 결과를 확인할 수 있다
+- 남은 모든 query도 인증 문제없이 수행됨을 확인하다
+
+## Unauthorized Request
+
+![users rule](img-cu/01.unahor-req-rule.png)
+
+> App Service를 통한 DB query는 Rules의 Role에 기반한 RBAC로 제어된다  
+> `sample_mflix` DB에서 `movies` collection외에는 Rule을 따로 지정하지 않았다  
+> 즉, 다른 collection들은 모두 기본 Role인 `denyAllAccess`로 남아 있다  
+> 이 상태에서 query request를 하게되면...
+
+![users rule](img-cu/01.unauthor-req-fail.png)
+
+- Postman `auth-apiKey` collection에서 `find_Unauthorized` 를 실행하면
+- apiKey를 사용해 인증은 성공하지만 `no rule exists` 에러를 확인할 수 있다
+  > query는 `users` collection 대상의 request
+
+## Filters
+
+App Service의 Rules는 Role에 기반한 collection 수준의 접근제어와 함계  
+Filter를 이용한 정밀한 document 접근 제어와 document의 field 접근제어가 가능하다
+
+<br>
+
+![filter start](img-cu/03.filter-start.png)
+
+- App Service 좌측 내비메뉴에서 `DATA ACCESS` 아래 `Rules` 진입
+- `sample_mflix.movies` 선택
+- `Filter` 탭 선택 후
+- `Add a filter` 클릭
+
+<br>
+
+![filter config](img-cu/03.filter-config.png)
+
+- `Filter name` 지정 (eg. `familyMovies`)
+- `Apply When` 지정
+  ```
+  {
+    "%%user.custom_data.age": {
+      "$exists": false
+    }
+  }
+  ```
+  > Filter 적용 조건을 정한다
+  > `{}`: always true (alway apply)
+  >
+  > 테스트에서 `custom_data`를 설정하지 않았기 때문에 조건은 항상 true  
+  > [[Rule Expressions 참조]](https://www.mongodb.com/docs/atlas/app-services/rules/expressions/#rule-expressions)
+- `Query` 입력
+  ```
+  {
+    "rated": {"$ne": "R"}
+  }
+  ```
+  > `find` 조회 query에서 사용하는 filter pattern 사용  
+  > `{}`: 모든 documents
+  >
+  > 성인 등급 영상을 제외하는 조건
+- `Projection` 입력
+  ```
+  {
+    "_id": 0,
+    "title": 1,
+    "plot": 1,
+    "imdb": 1,
+    "genres": 1
+  }
+  ```
+- `Save Draft` 클릭
+- 상단의 `REVIEW DRAFT & DEPLOY` 클릭
+
+<br>
+
+- `Deploy` 클릭
+
+<br>
+
+- 상단에 `Deployment was successful!` 확인되면 성공
+
+<br>
+
+![filter query run](img-cu/03.filter-query.png)
+
+- Postman `auth-apiKey` collection의 `findNoFilter` 수행
+  > query는 `"filter"` 필드를 지정하지 않았지만
+- 결과는 Rules의 Filter에저 지정한 `Projection`에 따라 한정된 필드만을 반환한다
+
+<br>
+
+![filter query R](img-cu/03.filter-nodocs.png)
+
+- Postman에서 `findRratedMovies` query 수행
+- query는 `"R"` 등급의 모든 영화를 찾으려 하지만 App Service Filter에 의해 모두 걸러진 후이기 때문에 검색되는 document가 없다
