@@ -23,7 +23,10 @@ db.movies.find(
 ````
 <img src="/03.index and aggregation/images/image01.png" width="100%" height="100%">     
 
-E-S-R 규칙에 맞추어 인덱스를 생성 하고 Explain에서 개선된 사하을 확인 합니다.
+No index available for this query 로 인덱스가 사용 되지 않은 것을 확인 할 수 있으며 Dcouments Examined의 갯수가 23530으로 전체 문서가 스캔 된 것을 확인 할 수 있습니다.    
+또한 Documnets Returned 가 12인 것으로 전체 문서 중 12개 문서가 리턴된 것으로 12개 문서를 찾기 위해 23530 문서를 검색한 것으로 비효율적인 것을 알 수 있습니다.
+
+E-S-R 규칙에 맞추어 인덱스를 생성 하고 Explain에서 개선된 사항을 확인 합니다.
 
 
 #### Index 생성
@@ -37,7 +40,9 @@ E-S-R 규칙에 맞추어 인덱스를 생성 하고 Explain에서 개선된 사
 
 <img src="/03.index and aggregation/images/image03.png" width="90%" height="90%">     
 
-문서 스캔이 Index 스캔으로 변경 되고 기존에 비해 성능이 개선된 것을 확인 합니다.
+문서 스캔이 Index 스캔으로 변경 되고 기존에 비해 성능이 개선된 것을 확인 합니다.  
+
+첫 번째에서 IXSCAN으로 생성한 인덱스를 이용하여 12개의 문서가 검색된 것을 확인 할 수 있습니다. 이후 정렬 과정을 거친 후 데이터가 반환 되는 것을 확인 할 수 있습니다. 
 
 인덱스를 ESR 순서로 작성합니다. (cast-title-year)   
 동일한 쿼리를 실행 하여 플랜을 확인 합니다.    
