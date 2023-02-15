@@ -60,7 +60,7 @@ __Agenda__
 - __Handson__
     - Data API
     - Functions
-
+    - [GitHub][5]
 
 
 [0]: https://github.com/MongoDBAtlas/MongoDBAtlasTraining/tree/main/00.pre-work
@@ -72,3 +72,5 @@ __Agenda__
 
 
 [4]: https://github.com/MongoDBAtlas/MongoDBAtlasTraining/tree/main/04.atlas-search
+
+[5]: https://github.com/MongoDBAtlas/MongoDBAtlasTraining/tree/main/05.atlas-serverless
