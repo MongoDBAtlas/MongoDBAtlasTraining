@@ -13,7 +13,7 @@
 
 ### Provision
 Pre-Work에 나온 바와 같이 Atlas database를 배포 하여 줍니다.
-- [Prew-Work](00.pre-work/README.md)
+- [Prew-Work](/00.pre-work/README.md)
 
 
 ### CRUD
