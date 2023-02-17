@@ -9,6 +9,8 @@
 
 ### [&rarr; Compass 를 이용한 데이터 확인](#Compass)
 
+### [&rarr; 추가 Query](#option)
+
 <br>
 
 ### Provision
@@ -260,3 +262,59 @@ ssn 이 123-456-0001 인 데이터를 찾기 위해 다음과 같이 입력 하�
 ````
 
 <img src="/01.Provision and CRUD/images/image07.png" width="90%" height="90%">     
+
+
+
+### CRUD
+생성된 데이터 베이스중 Movie 관련 데이터 컬렉션 (sample_mflix.movies)에서 다음 내용을 Query 합니다.
+
+- 1987 년에 나온 데이터 조회 (Where year = 1987)
+
+- 장르가 Comedy 에 속하는 영화 검색
+
+- 장르가 Comedy 하나 만 있는 데이터 검색
+
+- 장르가 Comedy 혹은 Drama 인 데이터 검색
+
+- imdb 의 평가 점수가 8.0 이상이고 등급이 PG 인 영화 검색
+
+- revenues 가 존재 하는 영화 검색
+
+- Dr. Strangelove 로 시작하는 영화 검색
+
+해당 쿼리는 다음과 같습니다.
+- 1987 년에 나온 데이터 조회 (Where year = 1987)
+````
+db.movies.find({year:1987})
+````
+- 장르가 Comedy 에 속하는 영화 검색
+````
+db.movies.find({genres: "Comedy"})
+
+````
+
+- 장르가 Comedy 하나 만 있는 데이터 검색
+````
+db.movies.find({genres:["Comedy"]})
+
+````
+- 장르가 Comedy 혹은 Drama 인 데이터 검색
+````
+db.movies.find({genres:{$in:["Comedy", "Drama"]}})
+
+````
+- imdb 의 평가 점수가 8.0 이상이고 등급이 PG 인 영화 검색
+````
+db.movies.find({"imdb.rating" : {$gt: 8.0}, rated:"PG"})
+
+````
+- revenues 가 존재 하는 영화 검색
+````
+db.movies.find({revenues: {$exists: true}})
+
+````
+- Dr. Strangelove 로 시작하는 영화 검색
+````
+db.movies.find({title: {$regex: '^Dr. Strangelove'}})
+
+````
