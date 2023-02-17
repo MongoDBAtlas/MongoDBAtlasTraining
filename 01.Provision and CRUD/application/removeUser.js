@@ -9,7 +9,9 @@ async function run() {
       const database = client.db("handson");
       const userCollection = database.collection("user");
 
-      const result = await userCollection.deleteOne({"ssn":"123-456-0001"});
+      const qeury = <<query>>;
+
+      const result = await userCollection.deleteOne(qeury);
       
       console.log(
         `${result.deletedCount} document(s) removed`,

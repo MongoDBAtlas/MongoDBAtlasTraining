@@ -3,11 +3,20 @@
 
 # MongoDB Atlas Hands-on Training
 
-### Provision and CRUD
+### [&rarr; Cluster Provision](#Provision)
+
+### [&rarr; CRUD with Nodejs](#CRUD)
+
+### [&rarr; Compass 를 이용한 데이터 확인](#Compass)
+
+<br>
+
+### Provision
 Pre-Work에 나온 바와 같이 Atlas database를 배포 하여 줍니다.
+- [Prew-Work](00.pre-work/README.md)
 
 
-### CRUD with Nodejs
+### CRUD
 
 Nodejs로 Atlas 에 접속 하고 MongoDB Query 를 이용하여 데이터를 생성, 조회, 삭제를 테스트 합니다. 
 코드는 application 폴더에 있으며 실행을 위해서는 NodeJS를 설치하고 테스트를 위해 관련 패키지를 설치 하여 줍니다.
@@ -64,9 +73,11 @@ insertOne.js 에 const uri을 수정 하여 줍니다.
 ````
 const uri =mongodb+srv://atlas-account:<password>@cluster0.****.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
 ````
-입력할 데이터를 수정 하여 줍니다.
+입력할 데이터를 수정 하여 줍니다. 
 
 ````
+      const newUser = <<query>>;  // query를 수정
+
       const newUser = {
         ssn:"123-456-0001", 
         email:"user@email.com", 
@@ -121,7 +132,10 @@ const uri =mongodb+srv://atlas-account:<password>@cluster0.****.mongodb.net/myFi
 수정할 데이터를 ssn을 입력 하여 줍니다.
 수정 대상 데이터의 ssn 및 수정할 데이터 항목을 확인 수정 하여 줍니다.
 `````
-const result = await userCollection.updateOne({"ssn":"123-456-0001"},{$set:{email:"gildong@email.com"}});
+      const query = {"ssn":"123-456-0001"};
+      const updatedata ={$set:{email:"gildong@email.com"};
+
+const result = await userCollection.updateOne(query, updatedata);
       
 `````
 
@@ -143,7 +157,11 @@ const uri =mongodb+srv://atlas-account:<password>@cluster0.****.mongodb.net/myFi
 수정할 데이터를 ssn을 입력 하여 줍니다.
 수정 대상 데이터의 ssn 및 Hobby 항목을 추가 하여 줍니다. (취미로 Reading 추가 하기)
 `````
-const result = await userCollection.updateOne({"ssn":"123-456-0001"},{$push:{Hobbies:"Reading"}});
+
+      const query = {"ssn":"123-456-0001"};
+      const updatedata ={$push:{Hobbies:"Reading"};
+
+const result = await userCollection.updateOne(query, updatedata);
           
 `````
 
@@ -167,7 +185,10 @@ const uri =mongodb+srv://atlas-account:<password>@cluster0.****.mongodb.net/myFi
 삭제할 데이터를 수정 하여 줍니다.
 삭제할 데이터의 ssn 및 입력 하여줍니다.
 `````
-const result = await userCollection.deleteOne({"ssn":"123-456-0001"});
+
+const qeury = {"ssn":"123-456-0001"};
+
+      const result = await userCollection.deleteOne(qeury);
 
 `````
 
@@ -178,7 +199,7 @@ const result = await userCollection.deleteOne({"ssn":"123-456-0001"});
 ````
 
 
-### Compass 를 이용한 데이터 확인
+### Compass
 
 MongoDB Cluster에 접속하여 저장된 데이터 등을 볼 수 있는 개발자용 GUI툴입니다. 이를 이용하여 데이터를 조회 하고 변경 하여 줍니다. 다음 링크에서 다운로드가 가능 합니다.    
 Compass :   

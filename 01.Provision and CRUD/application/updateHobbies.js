@@ -9,7 +9,10 @@ async function run() {
       const database = client.db("handson");
       const userCollection = database.collection("user");
 
-      const result = await userCollection.updateOne({"ssn":"123-456-7890"},{$push:{Hobbies:"Reading"}});
+      const query = <<query>>;
+      const updatedata = <<query>>;
+
+      const result = await userCollection.updateOne(query,updatedata);
       
       console.log(
         `${result.matchedCount} document(s) matched the filter, updated ${result.modifiedCount} document(s)`,
