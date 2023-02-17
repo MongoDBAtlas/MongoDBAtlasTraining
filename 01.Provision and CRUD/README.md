@@ -265,7 +265,7 @@ ssn 이 123-456-0001 인 데이터를 찾기 위해 다음과 같이 입력 하�
 
 
 
-### CRUD
+### option
 생성된 데이터 베이스중 Movie 관련 데이터 컬렉션 (sample_mflix.movies)에서 다음 내용을 Query 합니다.
 
 - 1987 년에 나온 데이터 조회 (Where year = 1987)
