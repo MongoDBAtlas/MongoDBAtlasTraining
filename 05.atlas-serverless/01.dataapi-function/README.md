@@ -307,10 +307,6 @@
   };
   ```
 
-  > [[Example]](https://www.mongodb.com/docs/atlas/app-services/data-api/custom-endpoints/#example) 에서는 `request.setBody()`로 결과를 리턴하는 예를 보여주지만  
-  > 현재 Function은 `setBody`를 지원하지 않는다  
-  > [`Respond With Result`](#endpoint-url)를 켜고 json object를 직접 리턴해야 한다
-
 <br>
 
 ![set param](img-fn/04.new-fn-param.png)
@@ -318,6 +314,21 @@
 - 오른쪽 아래 화살표 버튼을 클릭해서 `Testing Console`을 활성화 시킨 후
 - 테스트를 위한 query param을 세팅하고
 - `Run` 클릭
+
+  > Testing console을 이용한 테스트 시 [[Example]](https://www.mongodb.com/docs/atlas/app-services/data-api/custom-endpoints/#example) 처럼 `response.setBody()`를 이용해 return대신 직접 body에 결과를 처리하려면 `HTTPResponse` instance를 function에 argument로 넘겨줘야 한다  
+  > **예**
+  >
+  > ```
+  > exports(
+  >   {
+  >      query {
+  >        genre: 'Drama', limit: 1
+  >      },
+  >      headers: {'Content-Type': 'application/json'}
+  >   },
+  >   new HTTPResponse()
+  > )
+  > ```
 
 <br>
 
