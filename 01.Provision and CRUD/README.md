@@ -278,7 +278,7 @@ ssn 이 123-456-0001 인 데이터를 찾기 위해 다음과 같이 입력 하�
 
 - imdb 의 평가 점수가 8.0 이상이고 등급이 PG 인 영화 검색
 
-- revenues 가 존재 하는 영화 검색
+- metacritic의 평점이 존재 하는 영화 검색
 
 - Dr. Strangelove 로 시작하는 영화 검색
 
@@ -287,34 +287,46 @@ ssn 이 123-456-0001 인 데이터를 찾기 위해 다음과 같이 입력 하�
 ````
 db.movies.find({year:1987})
 ````
+<img src="/01.Provision and CRUD/images/image11.png" width="90%" height="90%">     
+
 - 장르가 Comedy 에 속하는 영화 검색
 ````
 db.movies.find({genres: "Comedy"})
 
 ````
+<img src="/01.Provision and CRUD/images/image12.png" width="90%" height="90%">     
 
 - 장르가 Comedy 하나 만 있는 데이터 검색
 ````
 db.movies.find({genres:["Comedy"]})
 
 ````
+<img src="/01.Provision and CRUD/images/image13.png" width="90%" height="90%">     
+
 - 장르가 Comedy 혹은 Drama 인 데이터 검색
 ````
 db.movies.find({genres:{$in:["Comedy", "Drama"]}})
 
 ````
+<img src="/01.Provision and CRUD/images/image14.png" width="90%" height="90%">     
+
 - imdb 의 평가 점수가 8.0 이상이고 등급이 PG 인 영화 검색
 ````
 db.movies.find({"imdb.rating" : {$gt: 8.0}, rated:"PG"})
 
 ````
-- revenues 가 존재 하는 영화 검색
+<img src="/01.Provision and CRUD/images/image15.png" width="90%" height="90%">     
+
+- metacritic의 평점이 존재 하는 영화 검색
 ````
-db.movies.find({revenues: {$exists: true}})
+db.movies.find({metacritic: {$exists: true}})
 
 ````
+<img src="/01.Provision and CRUD/images/image16.png" width="90%" height="90%">     
+
 - Dr. Strangelove 로 시작하는 영화 검색
 ````
 db.movies.find({title: {$regex: '^Dr. Strangelove'}})
 
 ````
+<img src="/01.Provision and CRUD/images/image17.png" width="90%" height="90%">     
