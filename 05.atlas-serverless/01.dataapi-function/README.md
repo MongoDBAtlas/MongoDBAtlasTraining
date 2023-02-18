@@ -329,6 +329,29 @@
   >   new HTTPResponse()
   > )
   > ```
+  >
+  > request body를 Testing console에서 export하려면 아래 예제처럼 [`BSON.Binary.fromBase64`](https://www.mongodb.com/docs/atlas/app-services/functions/globals/#mongodb-method-BSON.Binary.fromBase64)를 이용할 수 있다
+  >
+  > ```
+  > exports(
+  >   {
+  >      query {
+  >        genre: 'Drama', limit: 1
+  >      },
+  >      headers: {'Content-Type': 'application/json'},
+  >      body: BSON.Binary.fromBase64(<base64 string value>)
+  >   },
+  >   new HTTPResponse()
+  > )
+  > ```
+  >
+  > 단, Testing console은 `btoa()`를 지원하지 않기 때문에 콘솔에서 직접 base64 string으로 전환할 수가 없기 때문에 `<base64 string value>`는 외부에서 변환해야 한다
+  >
+  > **예**
+  >
+  > `btoa(JSON.stringify(<json object>)) + "="`
+  >
+  > > `"="`: `BSON.Binary`에서 요구하는 padding 값
 
 <br>
 
