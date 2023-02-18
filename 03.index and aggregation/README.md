@@ -3,10 +3,19 @@
 
 # MongoDB Atlas Hands-on Training
 
-### Index and Aggreagation
+## Index and Aggreagation
 생성한 컬렉션에 인덱스를 생성하여 빠른 데이터 엑세스가 되는 것을 확인 합니다.
 
-### Index on Movies
+### [&rarr; Index on Movies](#Index)
+
+### [&rarr; Aggregation](#Aggregation)
+
+### [&rarr; Lookup 을 이용한 조인](#Lookup)
+
+<br>
+
+
+### Index
 
 sample_mflix.movies 에서 2000년 이후에 개봉된 영화 중 "Bill Murray"가 출연한 영화 리스트를 검색 하고 제목 순서로 출력 합니다.   
 
@@ -52,7 +61,7 @@ E-S-R 규칙에 맞추어 인덱스를 생성 하고 Explain에서 개선된 사
 Projection 항목에 title만을 출력 하도록 하고 Plan을 확인 합니다.
 
 
-#### Aggregation
+### Aggregation
 
 Movies 컬렉션에서 장르가 "Comedy" 인 영화 중 포함된 모든 국가를 기준으로 그룹하여 국가별 포함 개수를 "CountriesInComedy" 컬렉션에 데이터를 생성하여 줍니다.  
 
@@ -296,7 +305,7 @@ application % node aggregation.js
 { _id: 'Kyrgyzstan', count: 1 }
 ````
 
-#### Lookup 을 이용한 조인
+### Lookup
 
 sample_mflix.comments 와 sample_mflix.users 를 결합하여 데이터를 조회 합니다.    
 users의 데이터 중 이름이 "Mercedes Tyler"인 사람을 찾아 그가 게시한 Comments 를 찾습니다.   
