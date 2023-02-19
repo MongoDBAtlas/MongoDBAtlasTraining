@@ -12,6 +12,8 @@
 
 ### [&rarr; Lookup 을 이용한 조인](#Lookup)
 
+### [&rarr; 추가 Aggregation](#option)
+
 <br>
 
 
@@ -442,5 +444,348 @@ Lookup
     },
     ...
   ]
+}
+````
+
+
+
+### option
+#### Aggregation Group 
+다음과 같은 과일 판매 데이터가 있을 때 일자별로 판매된 과일과 총 판매 금액을 계산 합니다.
+
+````
+db.sales.insertMany([
+{ "_id" : 1, "item" : "apple", "price" : 10, "quantity" : 2, "date" : ISODate("2023-01-01T08:00:00Z") },
+{ "_id" : 2, "item" : "grape", "price" : 20, "quantity" : 1, "date" : ISODate("2023-02-03T09:00:00Z") },
+{ "_id" : 3, "item" : "melon", "price" : 5, "quantity" : 5, "date" : ISODate("2023-02-03T09:05:00Z") },
+{ "_id" : 4, "item" : "apple", "price" : 10, "quantity" : 10, "date" : ISODate("2023-02-15T08:00:00Z") },
+{ "_id" : 5, "item" : "melon", "price" : 5, "quantity" : 10, "date" : ISODate("2023-02-15T09:12:00Z") }
+])
+
+````
+
+일자 데이터를 기준으로 그룹을 생성하고 accumulation 으로 addToSet, sum 을 이용합니다.
+
+````
+db.sales.aggregate(
+   [
+     {
+       $group:
+         {
+           _id: { day: { $dayOfYear: "$date"}, year: { $year: "$date" } },
+           itemsSold: { $addToSet: "$item" },
+           total_price: {$sum: "$price"}
+         }
+     }
+   ]
+)
+
+{
+  _id: {
+    day: 34,
+    year: 2023
+  },
+  itemsSold: [
+    'grape',
+    'melon'
+  ],
+  total_price: 25
+}
+{
+  _id: {
+    day: 46,
+    year: 2023
+  },
+  itemsSold: [
+    'melon',
+    'apple'
+  ],
+  total_price: 15
+}
+{
+  _id: {
+    day: 1,
+    year: 2023
+  },
+  itemsSold: [
+    'apple'
+  ],
+  total_price: 10
+}
+````
+#### Aggregation Bucket
+화가의 프로파일 정보에서 태어난 년도를 기준으로 하여 그룹을 생성 합니다. 년도는 10년을 기준으로 집계 합니다. 즉 1840 ~1850 년으로 집계 합니다.
+
+````
+db.artists.insertMany([
+  { "_id" : 1, "last_name" : "Bernard", "first_name" : "Emil", "year_born" : 1868, "year_died" : 1941, "nationality" : "France" },
+  { "_id" : 2, "last_name" : "Rippl-Ronai", "first_name" : "Joszef", "year_born" : 1861, "year_died" : 1927, "nationality" : "Hungary" },
+  { "_id" : 3, "last_name" : "Ostroumova", "first_name" : "Anna", "year_born" : 1871, "year_died" : 1955, "nationality" : "Russia" },
+  { "_id" : 4, "last_name" : "Van Gogh", "first_name" : "Vincent", "year_born" : 1853, "year_died" : 1890, "nationality" : "Holland" },
+  { "_id" : 5, "last_name" : "Maurer", "first_name" : "Alfred", "year_born" : 1868, "year_died" : 1932, "nationality" : "USA" },
+  { "_id" : 6, "last_name" : "Munch", "first_name" : "Edvard", "year_born" : 1863, "year_died" : 1944, "nationality" : "Norway" },
+  { "_id" : 7, "last_name" : "Redon", "first_name" : "Odilon", "year_born" : 1840, "year_died" : 1916, "nationality" : "France" },
+  { "_id" : 8, "last_name" : "Diriks", "first_name" : "Edvard", "year_born" : 1855, "year_died" : 1930, "nationality" : "Norway" }
+])
+````
+
+태어난 년도를 기준으로 하여 집계를 위해서 bucket을 이용하여 groupBy 항목으로 year_born을 하여 줍니다. 태어난 년도의 집계는 10년을 기준으로 category화는 boundaries레 작성 기준을 작성하여 줍니다. 
+
+````
+db.artists.aggregate( [
+  {
+    $bucket: {
+      groupBy: "$year_born",                        // Field to group by
+      boundaries: [ 1840, 1850, 1860, 1870, 1880 ], // Boundaries for the buckets
+      default: "Other",                             // Bucket ID for documents which do not fall into a bucket
+      output: {                                     // Output for each bucket
+        "count": { $sum: 1 },
+        "artists" :
+          {
+            $push: {
+              "name": { $concat: [ "$first_name", " ", "$last_name"] },
+              "year_born": "$year_born"
+            }
+          }
+      }
+    }
+  }
+] )
+
+
+{
+  _id: 1840,
+  count: 1,
+  artists: [
+    {
+      name: 'Odilon Redon',
+      year_born: 1840
+    }
+  ]
+}
+{
+  _id: 1850,
+  count: 2,
+  artists: [
+    {
+      name: 'Vincent Van Gogh',
+      year_born: 1853
+    },
+    {
+      name: 'Edvard Diriks',
+      year_born: 1855
+    }
+  ]
+}
+{
+  _id: 1860,
+  count: 4,
+  artists: [
+    {
+      name: 'Emil Bernard',
+      year_born: 1868
+    },
+    {
+      name: 'Joszef Rippl-Ronai',
+      year_born: 1861
+    },
+    {
+      name: 'Alfred Maurer',
+      year_born: 1868
+    },
+    {
+      name: 'Edvard Munch',
+      year_born: 1863
+    }
+  ]
+}
+{
+  _id: 1870,
+  count: 1,
+  artists: [
+    {
+      name: 'Anna Ostroumova',
+      year_born: 1871
+    }
+  ]
+}
+
+````
+
+#### Aggregation Unwind
+다음과 같은 의류 정보가 있을 때 의류를 기준으로 가능한 사이즈 정보가 배열화 되어 있습니다. 각 사이즈를 구분하여 문서화를 합니다.    
+사이즈가 없는 의류들은 이를 포함 함니다.
+
+````
+db.clothing.insertMany([
+  { "_id" : 1, "item" : "Shirt", "sizes": [ "S", "M", "L"] },
+  { "_id" : 2, "item" : "Shorts", "sizes" : [ ] },
+  { "_id" : 3, "item" : "Hat", "sizes": "M" },
+  { "_id" : 4, "item" : "Gloves" },
+  { "_id" : 5, "item" : "Scarf", "sizes" : null }
+])
+````
+배열로 되어 있는 값을 하나의 문서로 만들어 주기 위해 unwind를 사용합니다. 기본적으로 지정된 array (size)에 값이 없는 경우 연산에서 제외 합니다. 이를 포함하도록 하는 옵션은 preserveAndEmptyArrays입니다.
+
+
+````
+
+db.clothing.aggregate( [
+   { $unwind: { path: "$sizes", preserveNullAndEmptyArrays: true } }
+] )
+
+{
+  _id: 1,
+  item: 'Shirt',
+  sizes: 'S'
+}
+{
+  _id: 1,
+  item: 'Shirt',
+  sizes: 'M'
+}
+{
+  _id: 1,
+  item: 'Shirt',
+  sizes: 'L'
+}
+{
+  _id: 2,
+  item: 'Shorts'
+}
+{
+  _id: 3,
+  item: 'Hat',
+  sizes: 'M'
+}
+{
+  _id: 4,
+  item: 'Gloves'
+}
+{
+  _id: 5,
+  item: 'Scarf',
+  sizes: null
+}
+````
+
+
+#### 좌표 정보 검색
+sample_airbnb.listingsAndReviews 컬렉션에는 숙박 시설 정보를 가진 문서이며 해당 숙박시설의 지리 정보가 좌표로 입력 되어 있습니다. (address.location)  마드리드 공항을 기준으로 가장 가까운 숙박 시설을 검색 합니다.  마드리드 공항의 좌표 정보는 -3.56744, 40.49845 이며 검색하려는 숙박 시설을 Hotel 과 Apartments 입니다. 보는 데이터는 숙박 시설의 이름과 주소, 떨어진 거리, 금액으로 합니다. (name, property_type, summary, address, price)
+
+검색은 geoNear 스테이지를 이용하여 검색 하며 전체 데이터중 보고자 하는 필드만을 제한 하기 위해 project 스테이지를 사용 합니다.
+
+
+````
+
+db.listingsAndReviews.aggregate( [
+   { $geoNear: {
+  near: { type: 'Point', coordinates: [ -3.56744, 40.49845]},
+  distanceField:"distance",
+  key:"address.location",
+  query: {property_type: {$in: ["Hotel","Apartment"]}},
+  spherical: true
+} },
+{ $project: {name:1, property_type:1, 
+summary:1, address:1, 
+price:1, distance:1}
+}
+] )
+
+{
+  _id: '18426634',
+  name: 'Private room',
+  summary: 'Intermarche',
+  property_type: 'Apartment',
+  price: Decimal128("78.00"),
+  address: {
+    street: 'Porto, Porto, Portugal',
+    suburb: '',
+    government_area: 'Canedo, Vale e Vila Maior',
+    market: 'Porto',
+    country: 'Portugal',
+    country_code: 'PT',
+    location: {
+      type: 'Point',
+      coordinates: [
+        -8.4022,
+        41.00962
+      ],
+      is_location_exact: false
+    }
+  },
+  distance: 411593.1181197846
+}
+{
+  _id: '21883829',
+  name: 'Terraço',
+  summary: `La maison dispose de 4 chambres et un canapé-lit, est bon pour le repos et est situé dans un quartier calme et magnifique. Il est proche de la plage d'Espinho et si vous préférez visiter une zone naturelle, nous avons les "Passadiços de Arouca", c'est une zone très belle et relaxante. Ici, dans ce village, nous avons aussi un excellent restaurant qu'ils dépensent des repas économiques et très bons.`,
+  property_type: 'Apartment',
+  price: Decimal128("40.00"),
+  address: {
+    street: 'Aveiro, Aveiro, Portugal',
+    suburb: '',
+    government_area: 'Lobão, Gião, Louredo e Guisande',
+    market: 'Porto',
+    country: 'Portugal',
+    country_code: 'PT',
+    location: {
+      type: 'Point',
+      coordinates: [
+        -8.45777,
+        40.98082
+      ],
+      is_location_exact: true
+    }
+  },
+  distance: 415895.69466630125
+}
+{
+  _id: '23391765',
+  name: 'Cozy Flat, São João da Madeira',
+  summary: 'Um apartamento com quarto de cama de casal, wc’s privativos, sala e cozinha, equipado com tudo que precisa. Uma excelente opção para amantes de caminhadas, cultura e lazer. Se o seu motivo de visita for meramente profissional vai sentir-se em casa. Situa-se junto dos serviços e comércios necessários e a área é servida por transportes públicos.  Para além de São João da Madeira, poderá visitar Santa Maria da Feira e Estarreja em poucos minutos. Localiza-se a cerca de 45 km do Porto e Aveiro.',
+  property_type: 'Apartment',
+  price: Decimal128("45.00"),
+  address: {
+    street: 'São João da Madeira, Aveiro, Portugal',
+    suburb: '',
+    government_area: 'São João da Madeira',
+    market: 'Porto',
+    country: 'Portugal',
+    country_code: 'PT',
+    location: {
+      type: 'Point',
+      coordinates: [
+        -8.48714,
+        40.895
+      ],
+      is_location_exact: true
+    }
+  },
+  distance: 417500.0627241467
+}
+{
+  _id: '30341193',
+  name: 'Recanto agua',
+  summary: 'No meio da cidade, da para andar sempre a pé.',
+  property_type: 'Apartment',
+  price: Decimal128("25.00"),
+  address: {
+    street: 'São João da Madeira, Aveiro, Portugal',
+    suburb: '',
+    government_area: 'São João da Madeira',
+    market: 'Porto',
+    country: 'Portugal',
+    country_code: 'PT',
+    location: {
+      type: 'Point',
+      coordinates: [
+        -8.49682,
+        40.89102
+      ],
+      is_location_exact: true
+    }
+  },
+  distance: 418278.04115931864
 }
 ````
