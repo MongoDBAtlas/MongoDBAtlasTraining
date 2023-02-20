@@ -12,10 +12,9 @@ __Agenda__
     - MongoDB & Document Model
     - MQL
  
-- __Handson__
+- __Handson__ [GitHub][1]
     - Provision database
     - CRUD
-    - [GitHub][1]
      
 
 - Break
@@ -32,9 +31,9 @@ __Agenda__
     - Aggregation
     
      
-- __Handson__
+- __Handson__  [GitHub][3]
     - Index & Explain
-    - [GitHub][3]
+
 
 - Break
     
@@ -44,9 +43,9 @@ __Agenda__
     - Search functions
    
 
-- __Handson__
+- __Handson__ [GitHub][4]
     - Search
-    - [GitHub][4]
+
      
 - Break
     
@@ -57,10 +56,9 @@ __Agenda__
     - Data Federation & Online Archive
     
      
-- __Handson__
+- __Handson__  [GitHub][5]
     - Data API
     - Functions
-    - [GitHub][5]
 
 
 [0]: https://github.com/MongoDBAtlas/MongoDBAtlasTraining/tree/main/00.pre-work

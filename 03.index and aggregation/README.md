@@ -677,7 +677,6 @@ sample_airbnb.listingsAndReviews 컬렉션에는 숙박 시설 정보를 가진 
 
 
 ````
-
 db.listingsAndReviews.aggregate( [
    { $geoNear: {
   near: { type: 'Point', coordinates: [ -3.56744, 40.49845]},
