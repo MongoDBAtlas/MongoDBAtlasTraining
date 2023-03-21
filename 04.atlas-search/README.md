@@ -47,6 +47,28 @@ From within `04.atlas-search/data/`,
    > replies  
    > synonyms
 
+`````bash
+data % mongorestore mongodb+srv://admin:*****@dynamo.5qjlg.mongodb.net/
+2023-03-21T11:54:04.822+0900	WARNING: On some systems, a password provided directly in a connection string or using --uri may be visible to system status programs such as `ps` that may be invoked by other users. Consider omitting the password to provide it via stdin, or using the --config option to specify a configuration file with the password.
+2023-03-21T11:54:05.601+0900	using default 'dump' directory
+2023-03-21T11:54:05.601+0900	preparing collections to restore from
+2023-03-21T11:54:05.612+0900	reading metadata for forum_db.posts from dump/forum_db/posts.metadata.json
+2023-03-21T11:54:05.612+0900	reading metadata for forum_db.replies from dump/forum_db/replies.metadata.json
+2023-03-21T11:54:05.612+0900	reading metadata for forum_db.synonyms from dump/forum_db/synonyms.metadata.json
+2023-03-21T11:54:05.732+0900	restoring forum_db.posts from dump/forum_db/posts.bson
+2023-03-21T11:54:05.744+0900	restoring forum_db.replies from dump/forum_db/replies.bson
+2023-03-21T11:54:05.764+0900	restoring forum_db.synonyms from dump/forum_db/synonyms.bson
+2023-03-21T11:54:05.780+0900	finished restoring forum_db.synonyms (1 document, 0 failures)
+2023-03-21T11:54:06.734+0900	finished restoring forum_db.posts (5000 documents, 0 failures)
+2023-03-21T11:54:08.585+0900	[#################.......]  forum_db.replies  34.2MB/46.2MB  (74.0%)
+2023-03-21T11:54:09.656+0900	[########################]  forum_db.replies  46.2MB/46.2MB  (100.0%)
+2023-03-21T11:54:09.656+0900	finished restoring forum_db.replies (34654 documents, 0 failures)
+2023-03-21T11:54:09.656+0900	restoring users from dump/admin/system.users.bson
+2023-03-21T11:54:09.703+0900	restoring roles from dump/admin/system.roles.bson
+2023-03-21T11:54:09.774+0900	Failed: restore error: error running merge command: (Unauthorized) not authorized on admin to execute command { _mergeAuthzCollections: 1, tempUsersCollection: "admin.tempusers", tempRolesCollection: "admin.temproles", drop: false, db: "", writeConcern: { w: "majority" }, lsid: { id: UUID("bd28e6f6-76ee-4439-b76c-bff2785e2f05") }, $clusterTime: { clusterTime: Timestamp(1679367249, 5662), signature: { hash: BinData(0, 310FA0ECBA937791B82DCB7125EE2482C7964A7A), keyId: 7165675062429745153 } }, $db: "admin", $readPreference: { mode: "primary" } }
+2023-03-21T11:54:09.774+0900	39655 document(s) restored successfully. 0 document(s) failed to restore.
+`````
+
 Back to `04.atlas-search/`,
 
 8. run `npm start`
@@ -64,6 +86,8 @@ Create the first search index on `forum_db.posts`.
 - index name: `language_index`
 - analyzer: `lucene.english` for both index and search
 - dynamic mapping: `true`
+
+<img src="/04.atlas-search/images/image01.png" width="70%" height="70%">  
 
 ### Lab 1-a: Fuzzy search
 
