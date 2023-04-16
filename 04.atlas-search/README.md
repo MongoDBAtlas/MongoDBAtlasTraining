@@ -48,7 +48,7 @@ From within `04.atlas-search/data/`,
    > synonyms
 
 `````bash
-data % mongorestore mongodb+srv://admin:*****@dynamo.5qjlg.mongodb.net/
+data % mongorestore mongodb+srv://admin:*****@<<user atlas>>.mongodb.net/
 2023-03-21T11:54:04.822+0900	WARNING: On some systems, a password provided directly in a connection string or using --uri may be visible to system status programs such as `ps` that may be invoked by other users. Consider omitting the password to provide it via stdin, or using the --config option to specify a configuration file with the password.
 2023-03-21T11:54:05.601+0900	using default 'dump' directory
 2023-03-21T11:54:05.601+0900	preparing collections to restore from
@@ -100,6 +100,9 @@ Create the first search index on `forum_db.posts`.
 > Now, unit test lab1 should pass  
 > In the app, you will get results containing "replica set" when typing in typos like "reeplica sat"
 
+<img src="/04.atlas-search/images/image02.png" width="80%" height="80%">   
+
+
 ### Lab 1-b: Synonym search
 
 Update the index to enable synonyms
@@ -107,6 +110,9 @@ Update the index to enable synonyms
 - synonym mapping name: `my-mapping`
 - use `synonyms` for source collection
 - analyzer: `lucene.english`
+
+Following is configuration of Synonyms Mappings on the search index.
+<img src="/04.atlas-search/images/image03.png" width="60%" height="60%">   
 
 Update the query to support synonyms instead of fuzzy.
 
@@ -117,15 +123,21 @@ The first 3 make sense but why `crustacean`?
 It's because each and every document is likely to contain one of 3 so it's not easy to tell that our synonym really works. So the most unlikely synonym is added.  
 You must be able to find documents with node, server, or instance if looking for `crustacean`.
 
+<img src="/04.atlas-search/images/image04.png" width="80%" height="80%">   
+
+
 ## Lab 2: Autocomplete
 
 Modify the index and support the simplest form of autocomplete on `post_title` field.  
 Do not change any default values like `Max/Min Grams`, `Tokenization`, and `Fold Diacritics`.
 
+<img src="/04.atlas-search/images/image05.png" width="70%" height="70%">  
+
 Complete `labs/lab2.js` pipeline to support autocomplete on `post_title`.
 
 Now unit test lab2 must pass.  
 And the app will show search results as you type according to title.
+<img src="/04.atlas-search/images/image06.png" width="70%" height="70%">  
 
 ## Lab 3: Compound query
 
@@ -146,6 +158,10 @@ Use `compound` operator and complete `labs/lab3.js` pipeline to search by `post_
 - `must`: `post_text`
 - `filter`: `mongodb_staff`
 
+
+<img src="/04.atlas-search/images/image07.png" width="80%" height="80%">  
+
+
 Now unit test lab3 should pass.
 
 ## Lab 4: Exact match
@@ -162,10 +178,15 @@ To support this, `keyword` analyzer should be used so create another index,
 - analyzer: `lucene.keyword`
 - field: `post_title`
 
+<img src="/04.atlas-search/images/image08.png" width="70%" height="70%">  
+
 Complete `labs/lab4.js` by using the new index.
 
 Check if it works by entering `"How to add a modifier to a nested document with mongodb"` in the app.  
 Don't forget to type in quotes too!
+
+<img src="/04.atlas-search/images/image09.png" width="80%" height="80%">  
+
 
 Now unit test lab4 should pass.
 
@@ -173,6 +194,7 @@ Now unit test lab4 should pass.
 
 While range query is supported by DB itself, Atlas Search allows you to find records near a given value like ISODate, number, or GeoJSON point fields.  
 Moreover unlike range, `near` sorts out the result as per the distance from `origin`. It's especially powerful when with GeoJSON point.
+- Use the "language_index" created lab1. (That is dynamic mapping)
 
 In the `labs/lab5.js`, write a query to find posts created near a given date using `near` operator.
 
@@ -183,6 +205,13 @@ In the `labs/lab5.js`, write a query to find posts created near a given date usi
 > - `near` on `post_date`, use 1(ms) for `pivot` value
 
 Run the app and check by entering a date into the date field and typing a term in the search field. Then hit `search` button.
+
+Let's search the following record.
+<img src="/04.atlas-search/images/image10.png" width="70%" height="70%">  
+Created on "2020-01-29" and it has "disagree" in the post_text.
+
+<img src="/04.atlas-search/images/image11.png" width="80%" height="80%">  
+
 
 Now unit test lab5 should pass.
 
@@ -200,7 +229,13 @@ The `queryString` operator is not supported by language analyzer. So you need to
 - analyzer: `lucene.standard`
 - dynamic: `true`
 
+<img src="/04.atlas-search/images/image12.png" width="70%" height="70%">  
+
+
 Complete `labs/lab6.js` and use the new `qs_index` and `queryString` operator with `defaultPath` to `post_text`.
+
+<img src="/04.atlas-search/images/image13.png" width="80%" height="80%">  
+
 
 Now unit test lab6 should pass.
 
@@ -212,6 +247,12 @@ Popular use case is a part of filter as in common e-Commerce product search.
 All facet datatypes(`stringFacet`, `numberFacet`, `dateFacet`) are not covered by dynamic mapping. So index must explicitly declare facet fields even with `dynamic: true`.
 
 Update `qs_index` and add `StringFacet` to `user.full_name` field, `NumberFacet` to `reply_count` field.
+
+Add Field Mapping in Edit mode.
+<img src="/04.atlas-search/images/image14.png" width="70%" height="70%">  
+
+The final index looks like this.
+<img src="/04.atlas-search/images/image15.png" width="70%" height="70%">  
 
 Complete `labs/lab7.js` pipeline to use `$searchMeta` stage.
 
@@ -225,6 +266,11 @@ Complete `labs/lab7.js` pipeline to use `$searchMeta` stage.
   - facet name: `username_facet`
   - path: `user.full_name`
   - number of buckets: 25
+
+When you reload the search app, you can see Facets on left menu.
+
+<img src="/04.atlas-search/images/image16.png" width="80%" height="80%">  
+
 
 **note**: Other facet names than set above cannot pass the unit test lab7.
 
