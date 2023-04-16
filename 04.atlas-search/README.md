@@ -206,9 +206,11 @@ In the `labs/lab5.js`, write a query to find posts created near a given date usi
 
 Run the app and check by entering a date into the date field and typing a term in the search field. Then hit `search` button.
 
-Let's search the following record.
+Let's search the following record.   
+
 <img src="/04.atlas-search/images/image10.png" width="70%" height="70%">  
-Created on "2020-01-29" and it has "disagree" in the post_text.
+
+Created on "2020-01-29" and it has "disagree" in the post_text.   
 
 <img src="/04.atlas-search/images/image11.png" width="80%" height="80%">  
 
@@ -248,10 +250,12 @@ All facet datatypes(`stringFacet`, `numberFacet`, `dateFacet`) are not covered b
 
 Update `qs_index` and add `StringFacet` to `user.full_name` field, `NumberFacet` to `reply_count` field.
 
-Add Field Mapping in Edit mode.
+Add Field Mapping in Edit mode.   
+
 <img src="/04.atlas-search/images/image14.png" width="70%" height="70%">  
 
-The final index looks like this.
+The final index looks like this.   
+
 <img src="/04.atlas-search/images/image15.png" width="70%" height="70%">  
 
 Complete `labs/lab7.js` pipeline to use `$searchMeta` stage.
