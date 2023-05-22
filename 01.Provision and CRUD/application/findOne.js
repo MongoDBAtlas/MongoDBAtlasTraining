@@ -12,7 +12,7 @@ async function run() {
       const result = await userCollection.findOne();
       console.log(`Find One Record: ${result._id}`);
 
-      const query = <<query>>;
+      const query = {};
 
       const result2 = await userCollection.findOne(query);
       console.log(`Find One Record by SSN: ${result2._id}`);

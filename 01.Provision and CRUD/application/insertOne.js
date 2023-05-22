@@ -9,7 +9,7 @@ async function run() {
       const database = client.db("handson");
       const userCollection = database.collection("user");
       // create a document to insert
-      const newUser = <<query>>;
+      const newUser = {name:"Kyudong"};
 
       const result = await userCollection.insertOne(newUser);
       console.log(`A document was inserted with the _id: ${result.insertedId}`);

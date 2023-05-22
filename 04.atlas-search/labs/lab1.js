@@ -12,7 +12,18 @@ module.exports = {
             // TODO: query MongoDB using Atlas Search to allow searching a term using the English analyzer
             // the user's search input is provided in the variable "term"
             // limit results to 20 records
-            
+            {
+                $search: {
+                  index: "language_index",
+                  text: {
+                    query: term,
+                    path: "post_text",
+                    fuzzy: {},
+                    //synonyms: "my-mapping",
+                  },
+                },
+              },
+              { $limit: 20 },
         ]
 
         // return results as an array of json documents

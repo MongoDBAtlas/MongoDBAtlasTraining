@@ -7,6 +7,8 @@
 
 ### [&rarr; CRUD with Nodejs](#CRUD)
 
+### [&rarr; CRUD with Mongosh](#MONGOSH)
+
 ### [&rarr; Compass 를 이용한 데이터 확인](#Compass)
 
 ### [&rarr; 추가 Query](#option)
@@ -199,6 +201,253 @@ const qeury = {"ssn":"123-456-0001"};
 % node removeUser.js 
 1 document(s) removed
 ````
+
+
+### MONGOSH
+
+Mongosh로 Atlas 에 접속 하고 MongoDB Query 를 이용하여 데이터를 생성, 조회, 삭제를 테스트 합니다. NodeJS에 익숙하지 않은 경우 이를 이용하여 테스트 합니다.
+
+
+#### Connection
+
+MongoDB Atlas 와 Mongosh을 이용하여 연결 합니다.    
+MongoDB atlas Mongosh 접근 주소를 얻어야 합니다. 
+접속 주소를 얻기 위해 Console에 로그인합니다. 
+데이터베이스 클러스터의 Connect 버튼을 클릭 합니다.
+
+<img src="/02.Provision and CRUD/images/image01.png" width="90%" height="90%">     
+
+
+접근방법을 선택 하여 주는 단계에서 Shell을 선택 하면 접근 주소를 얻을 수 있습니다.   
+
+<img src="/02.Provision and CRUD/images/image20.png" width="60%" height="60%">   
+
+Mongosh이 설치 되어 있음으로 I have the MongoDB Shell installed를 선택하고 계정 접근은 암호로 접근할 것임으로 Password를 선택하면 접근 할 수 있는 주소를 얻을 수 있습니다.    
+
+<img src="/02.Provision and CRUD/images/image21.png" width="70%" height="70%">     
+
+
+Terminal을 열고 해당 주소를 이용하여 mongosh를 실행 하여 줍니다. (접근하기 위한 Account로 입력 하여 줍니다.)
+
+````
+ % mongosh "mongodb+srv://cluster0.5qjlg.mongodb.net/myFirstDatabase" --apiVersion 1 --username admin    
+Enter password: **********
+Current Mongosh Log ID:	64454459813babb209a83f4c
+Connecting to:		mongodb+srv://cluster0.5qjlg.mongodb.net/myFirstDatabase
+Using MongoDB:		6.0.5 (API Version 1)
+Using Mongosh:		1.0.5
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+Atlas atlas-t0pzlo-shard-0 [primary] myFirstDatabase> 
+````
+
+#### Insert Test
+
+Mongosh을 이용하여 Atlas와 연결하여 데이터를 생성 합니다.
+
+먼저 데이터베이스를 선택하여야 합니다.
+````
+Atlas atlas-t0pzlo-shard-0 [primary] myFirstDatabase> use samsungheavy
+switched to db samsungheavy
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy>
+````
+
+입력할 데이터를 생성하여 줍니다. (변수로 newUser를 만들어 줍니다)
+
+````
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> let newUser=  {
+        ssn:"123-456-0001", 
+        email:"user@email.com", 
+        name:"Gildong Hong", 
+        DateOfBirth: "1st Jan.", 
+        Hobbies:["Martial arts"],
+        Addresses:[{"Address Name":"Work","Street":"431, Teheran-ro GangNam-gu ","City":"Seoul", "Zip":"06159"}], 
+        Phones:[{"type":"mobile","number":"010-5555-1234"}]
+      };
+````
+
+다음 데이터 베이스 명령으로 데이터를 생성 합니다.
+
+````
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> db.handson.insertOne(newUser)
+{
+  acknowledged: true,
+  insertedId: ObjectId("64454591813babb209a83f4d")
+}
+
+````
+Atlas Console 에서 데이터 생성 여부를 확인 합니다.
+
+
+#### find Test
+
+Mongosh을 이용하여 Atlas와 연결하여 데이터를 조회 합니다.
+
+먼저 데이터베이스를 선택하여야 합니다. (이미 해당 데이터베이스를 사용 하고 있으면 생략 합니다)
+````
+Atlas atlas-t0pzlo-shard-0 [primary] myFirstDatabase> use samsungheavy
+switched to db samsungheavy
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy>
+````
+
+데이터를 조회 합니다
+````
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> db.handson.find({ssn:"123-456-0001"})
+[
+  {
+    _id: ObjectId("64454591813babb209a83f4d"),
+    ssn: '123-456-0001',
+    email: 'user@email.com',
+    name: 'Gildong Hong',
+    DateOfBirth: '1st Jan.',
+    Hobbies: [ 'Martial arts' ],
+    Addresses: [
+      {
+        'Address Name': 'Work',
+        Street: '431, Teheran-ro GangNam-gu ',
+        City: 'Seoul',
+        Zip: '06159'
+      }
+    ],
+    Phones: [ { type: 'mobile', number: '010-5555-1234' } ]
+  }
+]
+````
+
+#### Update Test
+
+Mongosh을 이용하여 Atlas와 연결하여 데이터를 업데이트 합니다.
+
+먼저 데이터베이스를 선택하여야 합니다. (이미 해당 데이터베이스를 사용 하고 있으면 생략 합니다)
+````
+Atlas atlas-t0pzlo-shard-0 [primary] myFirstDatabase> use samsungheavy
+switched to db samsungheavy
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy>
+````
+
+수정할 데이터를 ssn을 입력 하여 줍니다.
+수정 대상 데이터의 ssn 및 수정할 데이터 항목을 확인 수정 하여 줍니다.
+`````
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> let query = {"ssn":"123-456-0001"}
+
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> let updatedata = { $set: { email: "gildong@email.com" } }
+
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> db.handson.updateOne(query,updatedata)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+      
+`````
+
+데이터를 수정 결과를 확인 합니다. (이메일 주소가 수정 된 것을 확인 합니다)
+````
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> db.handson.find({"ssn":"123-456-0001"})
+[
+  {
+    _id: ObjectId("64454591813babb209a83f4d"),
+    ssn: '123-456-0001',
+    email: 'gildong@email.com',
+    name: 'Gildong Hong',
+    DateOfBirth: '1st Jan.',
+    Hobbies: [ 'Martial arts' ],
+    Addresses: [
+      {
+        'Address Name': 'Work',
+        Street: '431, Teheran-ro GangNam-gu ',
+        City: 'Seoul',
+        Zip: '06159'
+      }
+    ],
+    Phones: [ { type: 'mobile', number: '010-5555-1234' } ]
+  }
+]
+````
+
+#### Update Hobbies Test
+
+Mongosh을 이용하여 Atlas와 연결하여 데이터를 업데이트 (Hobbies를 추가)합니다.
+
+먼저 데이터베이스를 선택하여야 합니다. (이미 해당 데이터베이스를 사용 하고 있으면 생략 합니다)
+````
+Atlas atlas-t0pzlo-shard-0 [primary] myFirstDatabase> use samsungheavy
+switched to db samsungheavy
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy>
+````
+
+수정할 데이터를 ssn을 입력 하여 줍니다.
+수정 대상 데이터의 ssn 및 Hobby 항목을 추가 하여 줍니다. (취미로 Reading 추가 하기)
+`````
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> let query = {"ssn":"123-456-0001"}
+
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> let updatedata ={$push:{Hobbies:"Reading"}}
+
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> db.handson.updateOne(query,updatedata)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+          
+`````
+
+데이터를 수정 결과를 확인 합니다. (Hobby에 Reading이 추가되어 있음)
+````
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> db.handson.find({"ssn":"123-456-0001"})
+[
+  {
+    _id: ObjectId("64454591813babb209a83f4d"),
+    ssn: '123-456-0001',
+    email: 'gildong@email.com',
+    name: 'Gildong Hong',
+    DateOfBirth: '1st Jan.',
+    Hobbies: [ 'Martial arts', 'Reading' ],
+    Addresses: [
+      {
+        'Address Name': 'Work',
+        Street: '431, Teheran-ro GangNam-gu ',
+        City: 'Seoul',
+        Zip: '06159'
+      }
+    ],
+    Phones: [ { type: 'mobile', number: '010-5555-1234' } ]
+  }
+]
+
+````
+
+#### Remove Test
+
+Mongosh을 이용하여 Atlas와 연결하여 데이터를 삭제 합니다.
+
+먼저 데이터베이스를 선택하여야 합니다. (이미 해당 데이터베이스를 사용 하고 있으면 생략 합니다)
+````
+Atlas atlas-t0pzlo-shard-0 [primary] myFirstDatabase> use samsungheavy
+switched to db samsungheavy
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy>
+````
+
+삭제할 데이터를 수정 하여 줍니다.
+삭제할 데이터의 ssn 및 입력 하여줍니다.
+`````
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> db.handson.deleteOne({ssn:"123-456-0001"})
+{ acknowledged: true, deletedCount: 1 }
+
+`````
+
+데이터를 확인 합니다.
+````
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> db.handson.findOne({ssn:"123-456-0001"})
+null
+Atlas atlas-t0pzlo-shard-0 [primary] samsungheavy> 
+````
+
 
 
 ### Compass
