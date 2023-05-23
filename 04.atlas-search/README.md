@@ -18,6 +18,9 @@ Your goal in each lab excercise is to complete the Atlas Search query pipeline. 
 - [Lab 6: Advanced Search - `queryString` operator](#lab-6-querystring-operator)
 - [Lab 7: Facets - bucketing search results](#lab-7-facets)
 - [Lab 8: One indexing - Mix&Match](#lab-8-one-indexing)
+- [Search in Atlas](#search-in-atlas)
+
+
 
 ## Prep: Setup
 
@@ -286,3 +289,63 @@ So far, you've created 3 indexes. If your cluster is M0 free tier, it has used u
 You can combine 3 indexes into one unified version.
 
 > You can check out the branch, `search-sol8` for updated queries to use one index
+
+
+## Search in Atlas
+Atlas Console에서 인덱스를 구성하고 검색을 합니다.   
+
+### Prerequise
+생성된 데이터 베이스 클러스터에 초기 샘플 데이터를 적재하여 Hands on을 진행 합니다.   
+<img src="/00.pre-work/images/images06.png" width="90%" height="90%">     
+
+
+Database 메뉴를 클릭 하면 생성된 데이터 베이스 클러스터를 볼 수 있습니다. 최초에는 데이터가 없음으로 클러스터 메뉴 버튼을 "..."을 클릭 하면 추가 메뉴 중 Load Sample Dataset 을 선택 합니다.   
+생성이 완료된 후 Browse Collections를 클릭하먄 데이터를 볼 수 있습니다.
+생성된 데이터 베이스는 sample_airbnb외 8개의 데이터베이스가 생성 되고 최소 1개 이상의 컬렉션(테이블)이 생성되게 됩니다.
+<img src="/00.pre-work/images/images07.png" width="90%" height="90%"> 
+
+### Search Index
+Sample_mflix 데이터베이스내에 movies 컬렉션에 검색 인덱스를 생성 합니다.  
+Atlas 콘솔에서 Sample_mflix 에서 movies를 선택 하고 데이터 화면에서 Search Indexes를 선택 합니다.   
+<img src="/04.atlas-search/images/image20.png" width="80%" height="80%">  
+
+Create Search index를 클릭 합니다.    
+<img src="/04.atlas-search/images/image21.png" width="80%" height="80%">  
+
+인덱스 생성 방법은 UI를 이용해서 설정을 이용하여 생성하는 방법과 Json 메시지를 입력하여 만드는 방법이 있습니다. Json으로 작성하는 경우는 custom analyzer를 이용하는 경우에 사용 할 수 있습니다. 단순 검색을 위한 것임으로 Visual Editor를  선택 합니다.    
+<img src="/04.atlas-search/images/image22.png" width="80%" height="80%">  
+
+인덱스 이름을 지정하고 인덱스 생성 대상(데이터베이스, 컬렉션)을 선택 합니다. Sample_mflix.movies를 선택 하여 줍니다. 인덱스 이름은 searchidx로 하여 줍니다.
+
+<img src="/04.atlas-search/images/image23.png" width="80%" height="80%">  
+
+기본 인덱스를 이용할 것임으로 dynamic mapping 이 on 된 상태 그대로 인덱스를 생성하여 줍니다.
+
+<img src="/04.atlas-search/images/image24.png" width="80%" height="80%">  
+
+완료를 하게 되면 인덱스 생성이 진행됩니다. 데이터 양에 따라 2-3분 후에 인덱스가 생성 완료 됩니다.
+
+<img src="/04.atlas-search/images/image25.png" width="80%" height="80%">  
+
+### Keyword Search
+영화 제목을 기준으로 검색을 진행 합니다. title 항목에서 "eclipse"를 검색 하여 봅니다.   
+
+MongoDB Compass를 실행 하고 Sample_mflix.movies를 선택 하고 데이터 화면에서 Aggregation을 선택 후 Add stage 버튼을 클릭 하고 search를 생성 하여 줍니다.   
+
+<img src="/04.atlas-search/images/image27.png" width="80%" height="80%">  
+
+검색용 Query는 title 항목에서 elcipse 를 검색 하는 것으로 전체 Query는 다음과 같습니다.
+````
+{
+  $search: {
+    index: 'searchidx',
+    text: {
+      query: 'eclipse',
+      path: 'title'
+    }
+  }
+}
+````
+상단에 Run 버튼을 클릭 하면 검색에 대한 결과를 볼 수 있습니다.    
+
+<img src="/04.atlas-search/images/image28.png" width="80%" height="80%">  
