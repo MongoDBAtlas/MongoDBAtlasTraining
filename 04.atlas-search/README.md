@@ -18,7 +18,7 @@ Your goal in each lab excercise is to complete the Atlas Search query pipeline. 
 - [Lab 6: Advanced Search - `queryString` operator](#lab-6-querystring-operator)
 - [Lab 7: Facets - bucketing search results](#lab-7-facets)
 - [Lab 8: One indexing - Mix&Match](#lab-8-one-indexing)
-- [Search in Atlas](#search-in-atlas)
+- [Search in Compass](#search-in-compass)
 
 
 
@@ -291,7 +291,7 @@ You can combine 3 indexes into one unified version.
 > You can check out the branch, `search-sol8` for updated queries to use one index
 
 
-## Search in Atlas
+## Search in Compass
 Atlas Console에서 인덱스를 구성하고 검색을 합니다.   
 
 ### Prerequise
