@@ -349,3 +349,51 @@ MongoDB Compass를 실행 하고 Sample_mflix.movies를 선택 하고 데이터 
 상단에 Run 버튼을 클릭 하면 검색에 대한 결과를 볼 수 있습니다.    
 
 <img src="/04.atlas-search/images/image28.png" width="80%" height="80%">  
+
+
+### Title, fullplot 에서 검색
+검색 대상을 늘려서 검색을 진행 합니다. 제목과 줄거리 필드를 대상으로 특정 단어를 검색 합니다. 검색 대상은 "crime" 으로 제목과 줄거리에 해당 단어가 들어간 것을 검색 합니다.   
+
+MongoDB Compass에서 Aggregation을 선택 하고 Add Stage 를 클릭하고 Query를 작성 합니다.
+````
+{
+  $search: {
+    index: 'searchidx',
+    text: {
+      query: 'crime',
+      path: ['title','fullplot']
+    }
+  }
+}
+````
+<img src="/04.atlas-search/images/image29.png" width="80%" height="80%">  
+
+검색 결과를 확인 합니다. (제목 및 줄거리에 crime 이 포함된 것이며 검색된 횟수가 많은 것이 score가 높이 나오게 됩니다.)    
+
+<img src="/04.atlas-search/images/image30.png" width="80%" height="80%">  
+
+
+### Fuzzy검색 (오타)
+검색 했던 단어 Eclipse로 검색을 진행 하며 오타를 포함하여 검색이 되도록 합니다. "eclopse"로 하여 검색을 진행을 하더라도 "eclipse"와 동일한 검색이 나오는 것을 확인 합니다.    
+
+MongoDB Compass에서 Aggregation을 선택 하고 Add Stage를 클릭하고 Query를 작성 합니다.
+````
+{
+  $search:{
+    index: 'searchidx',
+    text: {
+      query: 'eclopse',
+      path: 'title',
+      fuzzy: {
+        maxEdits: 1,
+        maxExpansions: 100
+      }
+    }
+  }
+}
+````
+<img src="/04.atlas-search/images/image31.png" width="80%" height="80%">  
+
+검색 결과를 확인 합니다.    
+
+<img src="/04.atlas-search/images/image32.png" width="80%" height="80%">  
