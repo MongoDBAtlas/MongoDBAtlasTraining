@@ -397,3 +397,44 @@ MongoDB Compass에서 Aggregation을 선택 하고 Add Stage를 클릭하고 Que
 검색 결과를 확인 합니다.    
 
 <img src="/04.atlas-search/images/image32.png" width="80%" height="80%">  
+
+
+### Highlight
+검색한 단어가 포함된 부분을 강조 하기 위해 매치된 부분을 표기 할 수 있도록 검색 결과를 가져 옴니다. 검색어 "eclipse"로 제목과 줄거리에서 검색 합니다.   
+
+MongoDB Compass에서 Aggregation을 선택 하고 Add Stage를 클릭하고 Query를 작성 합니다.
+````
+{
+  "index":"searchidx",
+  "text": {
+    "query": "eclipse",
+    "path": ["title","fullplot"],
+  },
+  "highlight": { 
+    "path": ["title","fullplot"] 
+  }
+}
+````
+
+추가로 데이터를 확인 하기 위해 보여질 데이터 항목을 Project 를 이용하여 조정 합니다. 전체 데이터 중 제목, 줄거리, 하일라이트 항목과 점수 (score) 만 나오도록 조정 하여 줍니다.   
+Add Stage를 하여 Stage로 project를 선택 하고 다음 Query를 입력 하여 줍니다.
+
+````
+{
+  "_id" : 0,
+  "fullplot" : 1,
+  "title" : 1,
+  "highlights": {"$meta": "searchHighlights"},
+  "score": {
+      "$meta": "searchScore"
+  }
+}
+````
+
+<img src="/04.atlas-search/images/image33.png" width="80%" height="80%"> 
+
+작성한 Query를 실행하여 주면 다음과 같은 결과를 확인 할 수 있습니다.   
+
+<img src="/04.atlas-search/images/image34.png" width="80%" height="80%">    
+
+검색 결과에서 해당 검색 단어가 나온 부분이 type 이 hit 로 표기 되어 집니다. (Texts 의 Value 를 연결하면 해당 내용이 며 hit된 부분이 스트링을 연결 할 때 강조 하도록 UI를 작성 하여 줍니다.)
