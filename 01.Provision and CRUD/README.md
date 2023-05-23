@@ -215,16 +215,16 @@ MongoDB atlas Mongosh 접근 주소를 얻어야 합니다.
 접속 주소를 얻기 위해 Console에 로그인합니다. 
 데이터베이스 클러스터의 Connect 버튼을 클릭 합니다.
 
-<img src="/02.Provision and CRUD/images/image01.png" width="90%" height="90%">     
+<img src="/01.Provision and CRUD/images/image01.png" width="90%" height="90%">     
 
 
 접근방법을 선택 하여 주는 단계에서 Shell을 선택 하면 접근 주소를 얻을 수 있습니다.   
 
-<img src="/02.Provision and CRUD/images/image20.png" width="60%" height="60%">   
+<img src="/01.Provision and CRUD/images/image20.png" width="60%" height="60%">   
 
 Mongosh이 설치 되어 있음으로 I have the MongoDB Shell installed를 선택하고 계정 접근은 암호로 접근할 것임으로 Password를 선택하면 접근 할 수 있는 주소를 얻을 수 있습니다.    
 
-<img src="/02.Provision and CRUD/images/image21.png" width="70%" height="70%">     
+<img src="/01.Provision and CRUD/images/image21.png" width="70%" height="70%">     
 
 
 Terminal을 열고 해당 주소를 이용하여 mongosh를 실행 하여 줍니다. (접근하기 위한 Account로 입력 하여 줍니다.)
