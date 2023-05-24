@@ -57,7 +57,8 @@ Driver는 Node.js를 선택 하고 버젼은 4.1 or later를 선택 하여 주�
 <img src="/01.Provision and CRUD/images/image09.png" width="70%" height="70%">     
 
 
-connect.js 에 const uri을 수정 하여 줍니다.
+connect.js 에 const uri을 수정 하여 줍니다. 생성한 Database Account 와 비밀 번호를 수정하여 줍니다. 만약 비밀번호에 특수문자가 포함되어있는 경우 ('@','#', '!' 등) HTML URI encoding이 필요합니다.  
+(https://www.w3schools.com/tags/ref_urlencode.ASP)
 
 ````
 const uri =mongodb+srv://atlas-account:<password>@cluster0.****.mongodb.net/myFirstDatabase?retryWrites=true&w=majority
